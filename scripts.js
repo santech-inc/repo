@@ -154,10 +154,6 @@
   }
 
   function loadApps() {
-    if (typeof SOURCES_DATA !== "undefined") {
-      renderApps(SOURCES_DATA);
-      return;
-    }
     fetch(SOURCE_JSON)
       .then(function (res) {
         if (!res.ok) throw new Error("Failed to load sources");
