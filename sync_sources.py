@@ -59,7 +59,7 @@ def extract_ipa_icon(ipa_path: Path, dest: Path) -> bool:
             app_dir = None
             for name in zf.namelist():
                 parts = name.split("/")
-                if len(parts) == 3 and parts[0] == "Payload" and parts[2].endswith(".app"):
+                if len(parts) >= 2 and parts[0] == "Payload" and parts[1].endswith(".app"):
                     app_dir = "/".join(parts[:2])
                     break
             if not app_dir:
@@ -80,6 +80,14 @@ def extract_ipa_icon(ipa_path: Path, dest: Path) -> bool:
                     fname = name.split("/")[-1].lower()
                     if fname == "appicon60x60@2x.png" or fname == "appicon60x60@3x.png":
                         candidates.append((zf.getinfo(name).file_size, name))
+            if not candidates:
+                for name in zf.namelist():
+                    if not name.startswith(app_dir + "/"):
+                        continue
+                    fname = name.split("/")[-1].lower()
+                    if fname.endswith(".png") and fname.startswith("appicon"):
+                        info = zf.getinfo(name)
+                        candidates.append((info.file_size, name))
             if not candidates:
                 for name in zf.namelist():
                     if not name.startswith(app_dir + "/"):
@@ -211,14 +219,59 @@ def default_icon_url(bundle_id: str) -> str:
     return f"{RAW_BASE}/icons/{bundle_id.replace('.', '_')}.png"
 
 
+def _natural_sort_key(value: str) -> list:
+    """Sort filenames like 1.png, 2.png, 10.png in numeric order."""
+    parts = []
+    for piece in value.split(".")[:-1]:
+        if piece.isdigit():
+            parts.append((0, int(piece)))
+        else:
+            parts.append((1, piece.lower()))
+    return parts
+
+
 def collect_screenshot_urls(bundle_id: str) -> list[str]:
-    """Collect screenshot URLs from the screenshots/ folder for an app."""
+    """Collect screenshot URLs from the screenshots/ folder for an app.
+
+    Supports both legacy root-level naming like 'com_santech_app_1.png' and the
+    newer per-app folder layout: 'screenshots/com.santech.app/1.png' or
+    'screenshots/com_santech_app/1.png'.
+    """
     urls = []
-    prefix = bundle_id.replace(".", "_")
     if not SCREENSHOTS_DIR.exists():
         return urls
-    for f in sorted(SCREENSHOTS_DIR.glob(f"{prefix}_*.png")):
+
+    bundle_variants = {
+        bundle_id,
+        bundle_id.replace(".", "_"),
+        bundle_id.replace(".", "-"),
+        bundle_id.replace(".", ""),
+    }
+
+    app_folders = [
+        p for p in SCREENSHOTS_DIR.iterdir()
+        if p.is_dir() and p.name in bundle_variants
+    ]
+
+    if app_folders:
+        chosen = sorted(app_folders, key=lambda p: p.name)[0]
+        files = [
+            f for f in sorted(chosen.iterdir(), key=lambda p: _natural_sort_key(p.name))
+            if f.is_file() and f.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}
+        ]
+        for f in files:
+            urls.append(f"{RAW_BASE}/screenshots/{chosen.name}/{f.name}")
+        return urls
+
+    prefix = bundle_id.replace(".", "_")
+    for f in sorted(SCREENSHOTS_DIR.glob(f"{prefix}_*.png"), key=lambda p: _natural_sort_key(p.name)):
         urls.append(f"{RAW_BASE}/screenshots/{f.name}")
+    if urls:
+        return urls
+
+    for f in sorted(SCREENSHOTS_DIR.glob(f"{prefix}*.png"), key=lambda p: _natural_sort_key(p.name)):
+        urls.append(f"{RAW_BASE}/screenshots/{f.name}")
+
     return urls
 
 
@@ -305,6 +358,8 @@ def make_pal_app_entry(entry: dict) -> dict:
     if not icon:
         icon = default_icon_url(entry["bundleIdentifier"])
 
+    screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
+
     app = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
@@ -318,7 +373,7 @@ def make_pal_app_entry(entry: dict) -> dict:
             "entitlements": [],
             "privacy": {},
         },
-        "screenshots": {},
+        "screenshots": {"iPhone": screenshot_urls} if screenshot_urls else {},
         "versions": [
             {
                 "version": entry["version"],

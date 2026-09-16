@@ -162,11 +162,12 @@ By adding this source to AltStore, you acknowledge that you understand and accep
 
 1. Drop `.ipa` files into `clasic/`.
 2. Drop ADP folders (containing `manifest.json`) into `pal/`.
-3. Run the sync script:
+3. Place app screenshots in `screenshots/<bundle-id>/` (for example `screenshots/com.santech.simonInSpaceGame/1.png`).
+4. Run the sync script:
    ```bash
    python3 sync_sources.py
    ```
-   This scans both directories, extracts metadata and icons from the binaries, and updates all three source JSONs automatically.
+   This scans both directories, extracts metadata and icons from the binaries, and adds screenshots to each app entry in the source JSONs automatically.
 
    Use `--dry-run` to preview changes without writing files.
 
