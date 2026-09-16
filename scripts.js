@@ -24,50 +24,21 @@
     return new URL(relative, baseUrl).href;
   }
 
-  function initSourceLinks() {
-    var classicBtn = document.getElementById("btn-classic");
-    var palBtn = document.getElementById("btn-pal");
-    var classicUrl = resolveUrl(CLASIC_JSON);
-    var palUrl = resolveUrl(PAL_JSON);
-
-    if (classicBtn) {
-      classicBtn.href =
-        "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
-    }
-
-    if (palBtn) {
-      palBtn.href =
-        "altstore-pal://source?url=" + encodeURIComponent(palUrl);
-    }
-
-    var urlClassic = document.getElementById("url-classic");
-    var urlPal = document.getElementById("url-pal");
-    if (urlClassic) urlClassic.textContent = classicUrl;
-    if (urlPal) urlPal.textContent = palUrl;
-
-    var copyBtns = document.querySelectorAll(".copy-btn");
-    for (var i = 0; i < copyBtns.length; i++) {
-      copyBtns[i].addEventListener("click", function () {
-        var targetId = this.getAttribute("data-target");
-        var el = document.getElementById(targetId);
-        if (!el) return;
-        var text = el.textContent;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(function () {
-            showCopied(this);
-          }.bind(this));
-        } else {
-          var ta = document.createElement("textarea");
-          ta.value = text;
-          ta.style.position = "fixed";
-          ta.style.opacity = "0";
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          showCopied(this);
-        }
+  function copyText(text, btn) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        showCopied(btn);
       });
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      showCopied(btn);
     }
   }
 
@@ -79,6 +50,46 @@
       btn.textContent = original;
       btn.classList.remove("copied");
     }, 1500);
+  }
+
+  function initSourceLinks() {
+    var classicUrl = resolveUrl(CLASIC_JSON);
+    var palUrl = resolveUrl(PAL_JSON);
+
+    var classicBtn = document.getElementById("btn-classic");
+    var palBtn = document.getElementById("btn-pal");
+    if (classicBtn) classicBtn.href = "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
+    if (palBtn) palBtn.href = "altstore-pal://source?url=" + encodeURIComponent(palUrl);
+
+    var urlClassic = document.getElementById("url-classic");
+    var urlPal = document.getElementById("url-pal");
+    if (urlClassic) urlClassic.textContent = classicUrl;
+    if (urlPal) urlPal.textContent = palUrl;
+
+    var detailsActions = document.querySelectorAll(".json-details .json-actions");
+    for (var i = 0; i < detailsActions.length; i++) {
+      var links = detailsActions[i].querySelectorAll("a.btn");
+      for (var j = 0; j < links.length; j++) {
+        var link = links[j];
+        if (link.classList.contains("btn-classic")) {
+          link.href = "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
+        } else if (link.classList.contains("btn-pal")) {
+          link.href = "altstore-pal://source?url=" + encodeURIComponent(palUrl);
+        }
+      }
+    }
+
+    var copyBtns = document.querySelectorAll(".copy-btn");
+    for (var k = 0; k < copyBtns.length; k++) {
+      copyBtns[k].addEventListener("click", function () {
+        var targetId = this.getAttribute("data-target");
+        var contentId = this.getAttribute("data-copy-content");
+        var sourceId = targetId || contentId;
+        var el = document.getElementById(sourceId);
+        if (!el) return;
+        copyText(el.textContent, this);
+      });
+    }
   }
 
   function formatDate(dateStr) {
@@ -160,6 +171,12 @@
     }
   }
 
+  function renderJsonBlock(id, data) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = JSON.stringify(data, null, 2);
+  }
+
   function escapeHtml(str) {
     var div = document.createElement("div");
     div.appendChild(document.createTextNode(str));
@@ -170,24 +187,30 @@
     return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function loadApps() {
-    fetch(SOURCE_JSON)
+  function loadJson(url, id) {
+    return fetch(url)
       .then(function (res) {
-        if (!res.ok) throw new Error("Failed to load sources");
+        if (!res.ok) throw new Error("Failed to load " + url);
         return res.json();
       })
-      .then(renderApps)
+      .then(function (data) {
+        renderJsonBlock(id, data);
+        return data;
+      })
       .catch(function () {
-        var container = document.getElementById("apps-list");
-        if (container) {
-          container.innerHTML =
-            '<p class="empty">Could not load apps. Please try again later.</p>';
-        }
+        var el = document.getElementById(id);
+        if (el) el.textContent = "{}";
       });
+  }
+
+  function loadAll() {
+    loadJson(SOURCE_JSON, "json-mixed").then(renderApps);
+    loadJson(CLASIC_JSON, "json-classic");
+    loadJson(PAL_JSON, "json-pal");
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initSourceLinks();
-    loadApps();
+    loadAll();
   });
 })();

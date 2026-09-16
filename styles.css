@@ -337,6 +337,80 @@ footer {
   color: var(--accent);
 }
 
+/* Source JSON section */
+.source-json-section {
+  margin-top: 2.5rem;
+}
+
+.json-details {
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.json-details summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: var(--bg-card);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.json-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.json-details summary::before {
+  content: "\25B6";
+  font-size: 0.6rem;
+  transition: transform 0.2s;
+}
+
+.json-details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.json-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.json-actions .btn {
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+}
+
+.json-actions .copy-btn {
+  margin-left: auto;
+}
+
+.json-block {
+  margin: 0;
+  padding: 1rem;
+  background: var(--bg-card);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.json-block code {
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  color: var(--text);
+  white-space: pre;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   .hero {
@@ -360,5 +434,21 @@ footer {
     flex-direction: row;
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .json-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .json-actions .btn,
+  .json-actions .copy-btn {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .json-block {
+    font-size: 0.65rem;
+    max-height: 300px;
   }
 }

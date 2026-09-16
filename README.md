@@ -32,6 +32,118 @@ altstore-pal://source?url=https://santech-inc.github.io/repo/pal.sources.json
 https://santech-inc.github.io/repo/pal.sources.json
 ```
 
+## Source JSON
+
+<details>
+<summary><code>sources.json</code> — mixed (Classic + PAL)</summary>
+
+```json
+{
+  "name": "Santech Inc Apps Repo",
+  "identifier": "com.santechinc.repo",
+  "subtitle": "Apps by SanTech Inc for AltStore Classic & PAL",
+  "description": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
+  "website": "https://github.com/santech-inc/repo",
+  "apps": [
+    {
+      "name": "ExampleApp",
+      "bundleIdentifier": "com.santechinc.exampleapp",
+      "version": "1.0.0",
+      "downloadURL": "./clasic/exampleapp.ipa",
+      "distribution": "classic"
+    },
+    {
+      "name": "ExampleApp",
+      "bundleIdentifier": "com.santechinc.exampleapp",
+      "version": "1.0.0",
+      "downloadURL": "./pal/exampleapp/manifest.json",
+      "distribution": "pal"
+    }
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary><code>clasic.sources.json</code> — AltStore Classic</summary>
+
+```json
+{
+  "name": "SanTech Inc Apps Repo",
+  "identifier": "com.santechinc.repo",
+  "subtitle": "Apps by SanTech Inc for AltStore Classic",
+  "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
+  "iconURL": "./icons/source_icon.svg",
+  "website": "https://github.com/santech-inc/repo",
+  "tintColor": "#2D80E4",
+  "apps": [
+    {
+      "name": "ExampleApp",
+      "bundleIdentifier": "com.santechinc.exampleapp",
+      "developerName": "SanTech Inc",
+      "subtitle": "An example app placeholder.",
+      "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
+      "iconURL": "./icons/exampleapp.svg",
+      "tintColor": "#2D80E4",
+      "category": "utilities",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "buildVersion": "1",
+          "date": "2026-01-01T00:00:00Z",
+          "localizedDescription": "Initial release.",
+          "downloadURL": "./clasic/exampleapp.ipa",
+          "size": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary><code>pal.sources.json</code> — AltStore PAL</summary>
+
+```json
+{
+  "name": "SanTech Inc Apps Repo",
+  "identifier": "com.santechinc.repo",
+  "subtitle": "Apps by SanTech Inc for AltStore PAL",
+  "description": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil.",
+  "iconURL": "./icons/source_icon.svg",
+  "website": "https://github.com/santech-inc/repo",
+  "tintColor": "#2D80E4",
+  "apps": [
+    {
+      "name": "ExampleApp",
+      "bundleIdentifier": "com.santechinc.exampleapp",
+      "marketplaceID": "12345678",
+      "developerName": "SanTech Inc",
+      "subtitle": "An example app placeholder.",
+      "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
+      "iconURL": "./icons/exampleapp.svg",
+      "tintColor": "#2D80E4",
+      "category": "utilities",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "buildVersion": "1",
+          "date": "2026-01-01T00:00:00Z",
+          "localizedDescription": "Initial release.",
+          "downloadURL": "./pal/exampleapp/manifest.json",
+          "size": 0
+        }
+      ]
+    }
+  ]
+}
+```
+
+</details>
+
 ## Published Apps
 
 | App | Bundle ID | Version | Classic | PAL |
