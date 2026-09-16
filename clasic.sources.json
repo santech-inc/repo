@@ -1,0 +1,31 @@
+{
+  "name": "Santech Inc Apps Repo",
+  "identifier": "com.santechinc.repo",
+  "subtitle": "Apps by Santech Inc for AltStore Classic",
+  "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
+  "iconURL": "./icons/source_icon.svg",
+  "website": "https://github.com/santech-inc/repo",
+  "tintColor": "#007AFF",
+  "apps": [
+    {
+      "name": "ExampleApp",
+      "bundleIdentifier": "com.santechinc.exampleapp",
+      "developerName": "SanTech Inc",
+      "subtitle": "An example app placeholder.",
+      "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
+      "iconURL": "./icons/exampleapp.svg",
+      "tintColor": "#007AFF",
+      "category": "utilities",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "buildVersion": "1",
+          "date": "2026-01-01T00:00:00Z",
+          "localizedDescription": "Initial release.",
+          "downloadURL": "./clasic/exampleapp.ipa",
+          "size": 0
+        }
+      ]
+    }
+  ]
+}

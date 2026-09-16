@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SanTech Inc Apps Repo</title>
+  <meta name="description" content="Apps by SanTech Inc for AltStore Classic and PAL. Sideload or install from the marketplace.">
+  <meta name="theme-color" content="#0b1230">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="hero">
+    <img src="./icons/source_icon.svg" alt="SanTech Inc" class="source-icon" width="96" height="96">
+    <h1>SanTech Inc Apps Repo</h1>
+    <p class="subtitle">Apps for AltStore Classic &amp; PAL</p>
+    <div class="add-source-actions">
+      <a id="btn-classic" class="btn btn-classic" href="#">Add to AltStore Classic</a>
+      <a id="btn-pal" class="btn btn-pal" href="#">Add to AltStore PAL</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="apps-section">
+      <h2>Available Apps</h2>
+      <div id="apps-list" class="apps-list">
+        <p class="loading">Loading apps...</p>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <h2>How to Use</h2>
+      <ol class="how-to">
+        <li>Install <a href="https://altstore.io" target="_blank" rel="noopener">AltStore</a> on your iOS device.</li>
+        <li>Tap one of the "Add Source" buttons above, or copy the source URL and paste it manually in AltStore's Sources tab.</li>
+        <li>Browse and install apps directly from AltStore.</li>
+      </ol>
+      <p class="note">
+        <strong>Classic</strong> requires <a href="https://altstore.io" target="_blank" rel="noopener">AltServer</a> running on a Mac or PC.<br>
+        <strong>PAL</strong> is available in the EU, Japan, and Brazil on iOS 18.0+.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <p class="disclaimer">
+        <strong>Disclaimer:</strong> All apps are provided "as is" without warranty of any kind.
+        Use at your own risk. The developers are not responsible for any damage or issues
+        that may arise from using these apps.
+      </p>
+      <p class="copyright">
+        &copy; 2026 SanTech Inc. All rights reserved.
+      </p>
+      <p class="links">
+        <a href="https://santech-inc.github.io/" target="_blank" rel="noopener">SanTech Inc</a>
+        &middot;
+        <a href="https://github.com/santech-inc/repo" target="_blank" rel="noopener">GitHub</a>
+        &middot;
+        <a href="https://github.com/santech-inc/repo/wiki" target="_blank" rel="noopener">Wiki</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="./scripts.js"></script>
+</body>
+</html>

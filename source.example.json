@@ -1,0 +1,20 @@
+{
+  "name": "Reynaldo Repo",
+  "identifier": "com.reynaldo.repo",
+  "apps": [
+    {
+      "name": "MiApp",
+      "bundleIdentifier": "com.reynaldo.miapp",
+      "version": "1.0",
+      "downloadURL": "https://mi-servidor.com/pal/miapp.adp",
+      "distribution": "pal"
+    },
+    {
+      "name": "MiApp",
+      "bundleIdentifier": "com.reynaldo.miapp",
+      "version": "1.0",
+      "downloadURL": "https://mi-servidor.com/classic/miapp.ipa",
+      "distribution": "classic"
+    }
+  ]
+}
