@@ -401,7 +401,7 @@ def make_mixed_app_entry(entry: dict, distribution: str) -> dict:
         app["screenshotURLs"] = screenshot_urls
 
     # PAL-style fields
-    app["marketplaceID"] = entry.get("marketplaceID", "")
+    app["marketplaceID"] = entry.get("marketplaceID", "0000000000")
     if entry.get("minOSVersion"):
         app["minOSVersion"] = entry["minOSVersion"]
     app["appPermissions"] = {"entitlements": [], "privacy": []}
