@@ -27,18 +27,58 @@
   function initSourceLinks() {
     var classicBtn = document.getElementById("btn-classic");
     var palBtn = document.getElementById("btn-pal");
+    var classicUrl = resolveUrl(CLASIC_JSON);
+    var palUrl = resolveUrl(PAL_JSON);
 
     if (classicBtn) {
       classicBtn.href =
-        "altstore-classic://source?url=" +
-        encodeURIComponent(resolveUrl(CLASIC_JSON));
+        "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
     }
 
     if (palBtn) {
       palBtn.href =
-        "altstore-pal://source?url=" +
-        encodeURIComponent(resolveUrl(PAL_JSON));
+        "altstore-pal://source?url=" + encodeURIComponent(palUrl);
     }
+
+    var urlClassic = document.getElementById("url-classic");
+    var urlPal = document.getElementById("url-pal");
+    if (urlClassic) urlClassic.textContent = classicUrl;
+    if (urlPal) urlPal.textContent = palUrl;
+
+    var copyBtns = document.querySelectorAll(".copy-btn");
+    for (var i = 0; i < copyBtns.length; i++) {
+      copyBtns[i].addEventListener("click", function () {
+        var targetId = this.getAttribute("data-target");
+        var el = document.getElementById(targetId);
+        if (!el) return;
+        var text = el.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            showCopied(this);
+          }.bind(this));
+        } else {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          showCopied(this);
+        }
+      });
+    }
+  }
+
+  function showCopied(btn) {
+    var original = btn.textContent;
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove("copied");
+    }, 1500);
   }
 
   function formatDate(dateStr) {

@@ -8,22 +8,28 @@ AltStore source repository for apps by Santech Inc. Distributes apps via both **
 
 Requires [AltServer](https://altstore.io) running on a Mac or PC.
 
+**Deep link** (tap on iOS):
 ```
 altstore-classic://source?url=https://santech-inc.github.io/repo/clasic.sources.json
+```
+
+**Manual** — copy this URL and paste it into AltStore > Sources > Add Source:
+```
+https://santech-inc.github.io/repo/clasic.sources.json
 ```
 
 ### AltStore PAL
 
 Available on iOS 18.0+ in the EU, Japan, and Brazil.
 
+**Deep link** (tap on iOS):
 ```
 altstore-pal://source?url=https://santech-inc.github.io/repo/pal.sources.json
 ```
 
-Or add via the web bridge:
-
+**Manual** — copy this URL and paste it into AltStore > Sources > Add Source:
 ```
-https://altstore.io/source/santech-inc.github.io/repo/pal.sources.json
+https://santech-inc.github.io/repo/pal.sources.json
 ```
 
 ## Published Apps

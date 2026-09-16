@@ -109,6 +109,79 @@ a:hover {
   background: #30b050;
 }
 
+/* Source URLs */
+.source-urls {
+  margin-top: 1.25rem;
+  text-align: left;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.source-urls-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.source-url-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.source-url-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  flex-shrink: 0;
+  min-width: 46px;
+}
+
+.source-url-value {
+  flex: 1;
+  font-size: 0.72rem;
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  user-select: all;
+  min-width: 0;
+}
+
+.copy-btn {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.copy-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.copy-btn.copied {
+  background: #30b050;
+  color: #fff;
+  border-color: #30b050;
+}
+
 /* Main */
 main {
   flex: 1;
