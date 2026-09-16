@@ -163,7 +163,15 @@ By adding this source to AltStore, you acknowledge that you understand and accep
 1. Drop `.ipa` files into `clasic/`.
 2. Drop ADP folders (containing `manifest.json`) into `pal/`.
 3. Place app screenshots in `screenshots/<bundle-id>/` (for example `screenshots/com.santech.simonInSpaceGame/1.png`).
-4. Run the sync script:
+4. Place optional app metadata files next to the IPA or inside the PAL app folder:
+   ```text
+   clasic/<bundle_id_slug>.changelog.txt
+   clasic/<bundle_id_slug>.description.<locale>.txt
+   pal/<app>/<bundle_id_slug>.changelog.txt
+   pal/<app>/<bundle_id_slug>.description.<locale>.txt
+   ```
+   The `en-US` description is preferred for the app-level `localizedDescription`; otherwise, the first available locale is used. All locale files are emitted in `localizedDescriptions`.
+5. Run the sync script:
    ```bash
    python3 sync_sources.py
    ```

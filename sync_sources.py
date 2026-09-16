@@ -235,6 +235,25 @@ def default_icon_url(bundle_id: str) -> str:
     return f"{RAW_BASE}/icons/{bundle_id.replace('.', '_')}.png"
 
 
+def find_changelog(base_dir: Path, bundle_id: str) -> str:
+    """Read the per-version changelog file, if present, next to the ipa/adp."""
+    slug = bundle_id.replace(".", "_")
+    path = base_dir / f"{slug}.changelog.txt"
+    if path.exists():
+        return path.read_text(encoding="utf-8").strip()
+    return ""
+
+
+def find_descriptions(base_dir: Path, bundle_id: str) -> dict[str, str]:
+    """Read all per-locale store description files, if present, next to the ipa/adp."""
+    slug = bundle_id.replace(".", "_")
+    descriptions = {}
+    for path in sorted(base_dir.glob(f"{slug}.description.*.txt")):
+        locale = path.stem.split(".description.")[-1]
+        descriptions[locale] = path.read_text(encoding="utf-8").strip()
+    return descriptions
+
+
 def _natural_sort_key(value: str) -> list:
     """Sort filenames like 1.png, 2.png, 10.png in numeric order."""
     parts = []
@@ -321,13 +340,19 @@ def make_classic_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
         icon = default_icon_url(entry["bundleIdentifier"])
 
     screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
+    localized_descriptions = find_descriptions(CLASIC_DIR, entry["bundleIdentifier"])
+    primary_description = (
+        localized_descriptions.get("en-US")
+        or next(iter(localized_descriptions.values()), "")
+        or descriptions.get(entry["bundleIdentifier"], "")
+    )
+    changelog = find_changelog(CLASIC_DIR, entry["bundleIdentifier"])
 
-    description = descriptions.get(entry["bundleIdentifier"], "")
     app = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "localizedDescription": description,
+        "localizedDescription": primary_description,
         "iconURL": icon,
         "tintColor": "#007AFF",
         "versions": [
@@ -337,11 +362,13 @@ def make_classic_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
                 "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
                 "downloadURL": f"{RAW_BASE}/clasic/{entry['ipa_path'].name}",
                 "size": entry["size"],
-                "localizedDescription": description,
+                "localizedDescription": changelog,
                 **({"minOSVersion": entry["minOSVersion"]} if entry.get("minOSVersion") else {}),
             }
         ],
     }
+    if localized_descriptions:
+        app["localizedDescriptions"] = localized_descriptions
     if screenshot_urls:
         app["screenshotURLs"] = screenshot_urls
 
@@ -376,14 +403,21 @@ def make_pal_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
         icon = default_icon_url(entry["bundleIdentifier"])
 
     screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
+    metadata_dir = PAL_DIR / entry["adp_dir"].name
+    localized_descriptions = find_descriptions(metadata_dir, entry["bundleIdentifier"])
+    primary_description = (
+        localized_descriptions.get("en-US")
+        or next(iter(localized_descriptions.values()), "")
+        or descriptions.get(entry["bundleIdentifier"], "")
+    )
+    changelog = find_changelog(metadata_dir, entry["bundleIdentifier"])
 
-    description = descriptions.get(entry["bundleIdentifier"], "")
     app = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "marketplaceID": entry.get("marketplaceID", ""),
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "localizedDescription": description,
+        "localizedDescription": primary_description,
         "category": "utilities",
         "iconURL": icon,
         "tintColor": "#007AFF",
@@ -399,10 +433,12 @@ def make_pal_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
                 "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
                 "downloadURL": f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json",
                 "size": entry["size"],
-                "localizedDescription": description,
+                "localizedDescription": changelog,
             }
         ],
     }
+    if localized_descriptions:
+        app["localizedDescriptions"] = localized_descriptions
     if entry.get("minOSVersion"):
         app["minOSVersion"] = entry["minOSVersion"]
 
