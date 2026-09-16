@@ -458,38 +458,47 @@ def extract_icons(ipa_apps: list[dict], adp_apps: list[dict]):
 
 
 def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
-    classic_apps = []
-    pal_apps = []
-
-    for app in ipa_apps:
-        classic_apps.append(make_classic_app_entry(app))
-
-    for app in adp_apps:
-        pal_apps.append(make_pal_app_entry(app))
+    classic_apps = [make_classic_app_entry(app) for app in ipa_apps]
+    pal_apps = [make_pal_app_entry(app) for app in adp_apps]
 
     def merge(existing: list, new_entries: list, key: str) -> list:
         by_key = {}
         for item in existing:
-            by_key[item[key]] = item
+            if key in item:
+                by_key[item[key]] = item
         for item in new_entries:
             by_key[item[key]] = item
         return list(by_key.values())
 
+    def keep_current(existing: list, current_ids: set[str], key: str) -> list:
+        return [item for item in existing if item.get(key) in current_ids]
+
+    current_classic_ids = {app["bundleIdentifier"] for app in classic_apps}
+    current_pal_ids = {app["bundleIdentifier"] for app in pal_apps}
+
     # clasic.sources.json
     existing_clasic = _load_json(CLASIC_SOURCES_JSON)
     clasic_data = make_classic_source_entry()
-    clasic_data["apps"] = merge(
-        existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"
+    clasic_data["apps"] = keep_current(
+        merge(existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"),
+        current_classic_ids,
+        "bundleIdentifier",
     )
-    clasic_data["featuredApps"] = [a["bundleIdentifier"] for a in clasic_data["apps"]]
+    clasic_data["featuredApps"] = [
+        a["bundleIdentifier"] for a in clasic_data["apps"] if a["bundleIdentifier"] in current_classic_ids
+    ]
 
     # pal.sources.json
     existing_pal = _load_json(PAL_SOURCES_JSON)
     pal_data = make_pal_source_entry()
-    pal_data["apps"] = merge(
-        existing_pal.get("apps", []), pal_apps, "bundleIdentifier"
+    pal_data["apps"] = keep_current(
+        merge(existing_pal.get("apps", []), pal_apps, "bundleIdentifier"),
+        current_pal_ids,
+        "bundleIdentifier",
     )
-    pal_data["featuredApps"] = [a["bundleIdentifier"] for a in pal_data["apps"]]
+    pal_data["featuredApps"] = [
+        a["bundleIdentifier"] for a in pal_data["apps"] if a["bundleIdentifier"] in current_pal_ids
+    ]
 
     files = [
         (CLASIC_SOURCES_JSON, clasic_data),

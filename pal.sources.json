@@ -11,35 +11,6 @@
   "website": "https://github.com/santech-inc/repo",
   "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon.png",
   "tintColor": "#007AFF",
-  "featuredApps": [
-    "com.santechinc.exampleapp"
-  ],
-  "apps": [
-    {
-      "name": "ExampleApp",
-      "bundleIdentifier": "com.santechinc.exampleapp",
-      "marketplaceID": "12345678",
-      "developerName": "SanTech Inc",
-      "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
-      "category": "utilities",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/exampleapp.png",
-      "tintColor": "#007AFF",
-      "minOSVersion": "14.0",
-      "appPermissions": {
-        "entitlements": [],
-        "privacy": {}
-      },
-      "screenshots": {},
-      "versions": [
-        {
-          "version": "1.0.0",
-          "buildVersion": "1",
-          "date": "2026-01-01",
-          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/pal/exampleapp/manifest.json",
-          "size": 0,
-          "localizedDescription": "Initial release."
-        }
-      ]
-    }
-  ]
+  "featuredApps": [],
+  "apps": []
 }
