@@ -18,6 +18,7 @@
     {
       "name": "ExampleApp",
       "bundleIdentifier": "com.santechinc.exampleapp",
+      "marketplaceID": "",
       "developerName": "SanTech Inc",
       "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
       "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/exampleapp.png",
