@@ -154,6 +154,10 @@
   }
 
   function loadApps() {
+    if (typeof SOURCES_DATA !== "undefined") {
+      renderApps(SOURCES_DATA);
+      return;
+    }
     fetch(SOURCE_JSON)
       .then(function (res) {
         if (!res.ok) throw new Error("Failed to load sources");
@@ -162,7 +166,7 @@
       .then(renderApps)
       .catch(function () {
         var container = document.getElementById("apps-list");
-        if (container) container.innerHTML = '<p class="empty">Could not load apps. Please try again later.</p>';
+        if (container) container.innerHTML = '<p class="empty">Could not load apps.</p>';
       });
   }
 
