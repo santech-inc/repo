@@ -13,27 +13,35 @@
   "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon.png",
   "tintColor": "#007AFF",
   "featuredApps": [
-    "com.santech.simonInSpaceGame"
+    "com.santech.simonOnMars"
   ],
   "news": [],
   "apps": [
     {
       "name": "Simon On Mars",
-      "bundleIdentifier": "com.santech.simonInSpaceGame",
+      "bundleIdentifier": "com.santech.simonOnMars",
       "developerName": "SanTech Inc",
       "localizedDescription": "",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonInSpaceGame.png",
+      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonOnMars.png",
       "tintColor": "#007AFF",
       "versions": [
         {
           "version": "1.0.0",
           "buildVersion": "50",
-          "date": "2026-09-16T16:01:39Z",
+          "date": "2026-09-16T16:20:47Z",
           "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/SimonOnMars-v1.0.0.ipa",
-          "size": 72792766,
+          "size": 72792728,
           "localizedDescription": "",
           "minOSVersion": "13.0"
         }
+      ],
+      "screenshotURLs": [
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars_1.png",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars_2.png",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars_3.png",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars_4.png",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars_5.png",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars_6.png"
       ]
     }
   ]
