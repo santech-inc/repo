@@ -9,6 +9,7 @@
     {
       "name": "ExampleApp",
       "bundleIdentifier": "com.santechinc.exampleapp",
+      "developerName": "SanTech Inc",
       "version": "1.0.0",
       "iconURL": "./icons/exampleapp.png",
       "downloadURL": "./clasic/exampleapp.ipa",
@@ -17,6 +18,7 @@
     {
       "name": "ExampleApp",
       "bundleIdentifier": "com.santechinc.exampleapp",
+      "developerName": "SanTech Inc",
       "version": "1.0.0",
       "iconURL": "./icons/exampleapp.png",
       "downloadURL": "./pal/exampleapp/manifest.json",
