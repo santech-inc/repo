@@ -317,7 +317,7 @@ def make_pal_app_entry(entry: dict) -> dict:
         "tintColor": "#007AFF",
         "appPermissions": {
             "entitlements": [],
-            "privacy": [],
+            "privacy": {},
         },
         "screenshots": {},
         "versions": [
@@ -404,7 +404,7 @@ def make_mixed_app_entry(entry: dict, distribution: str) -> dict:
     app["marketplaceID"] = entry.get("marketplaceID", "0000000000")
     if entry.get("minOSVersion"):
         app["minOSVersion"] = entry["minOSVersion"]
-    app["appPermissions"] = {"entitlements": [], "privacy": []}
+    app["appPermissions"] = {"entitlements": [], "privacy": {}}
     app["screenshots"] = {}
 
     return app

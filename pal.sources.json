@@ -25,7 +25,7 @@
       "minOSVersion": "14.0",
       "appPermissions": {
         "entitlements": [],
-        "privacy": []
+        "privacy": {}
       },
       "screenshots": {},
       "versions": [

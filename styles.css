@@ -102,10 +102,6 @@ a:hover {
   text-decoration: none;
 }
 
-.btn-all {
-  background: linear-gradient(135deg, #00BDDF, #2D80E4, #6F5DE5);
-}
-
 .btn-classic {
   background: #147ce5;
 }
@@ -149,7 +145,6 @@ a:hover {
   min-width: 40px;
 }
 
-.tag-all { color: #6F5DE5; }
 .tag-classic { color: #147ce5; }
 .tag-pal { color: #30b050; }
 

@@ -51,21 +51,16 @@
   }
 
   function initLinks() {
-    var allUrl = resolveUrl(SOURCE_JSON);
     var classicUrl = resolveUrl(CLASIC_JSON);
     var palUrl = resolveUrl(PAL_JSON);
 
-    var btnAll = document.getElementById("btn-all");
     var btnClassic = document.getElementById("btn-classic");
     var btnPal = document.getElementById("btn-pal");
-    if (btnAll) btnAll.href = "altstore://source?url=" + encodeURIComponent(allUrl);
     if (btnClassic) btnClassic.href = "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
     if (btnPal) btnPal.href = "altstore-pal://source?url=" + encodeURIComponent(palUrl);
 
-    var urlAll = document.getElementById("url-all");
     var urlClassic = document.getElementById("url-classic");
     var urlPal = document.getElementById("url-pal");
-    if (urlAll) urlAll.textContent = allUrl;
     if (urlClassic) urlClassic.textContent = classicUrl;
     if (urlPal) urlPal.textContent = palUrl;
 

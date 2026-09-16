@@ -28,7 +28,7 @@
       "distribution": "classic",
       "appPermissions": {
         "entitlements": [],
-        "privacy": []
+        "privacy": {}
       },
       "screenshots": {},
       "versions": [
@@ -57,7 +57,7 @@
       "distribution": "pal",
       "appPermissions": {
         "entitlements": [],
-        "privacy": []
+        "privacy": {}
       },
       "screenshots": {},
       "versions": [
