@@ -17,7 +17,11 @@
   function resolveUrl(relative) {
     if (!relative) return "";
     if (relative.startsWith("http://") || relative.startsWith("https://")) return relative;
-    return new URL(relative, baseUrl).href;
+    try {
+      return new URL(relative, baseUrl).href;
+    } catch (_) {
+      return relative;
+    }
   }
 
   function copyText(text, btn) {
