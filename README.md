@@ -168,6 +168,7 @@ By adding this source to AltStore, you acknowledge that you understand and accep
    python3 sync_sources.py
    ```
    This scans both directories, extracts metadata and icons from the binaries, and adds screenshots to each app entry in the source JSONs automatically.
+   App descriptions are preserved in memory from the existing source files before stale apps are removed, so they are restored when an app is regenerated. No auxiliary backup file is created.
 
    Use `--dry-run` to preview changes without writing files.
 

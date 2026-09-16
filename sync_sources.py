@@ -14,7 +14,9 @@ import json
 import os
 import plistlib
 import shutil
+import subprocess
 import sys
+import tempfile
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -102,7 +104,21 @@ def extract_ipa_icon(ipa_path: Path, dest: Path) -> bool:
             candidates.sort(key=lambda x: x[0], reverse=True)
             _, icon_name = candidates[0]
             icon_data = zf.read(icon_name)
-            dest.write_bytes(icon_data)
+            with tempfile.TemporaryDirectory() as temp_dir:
+                source = Path(temp_dir) / "icon.png"
+                normalized = Path(temp_dir) / "normalized.png"
+                source.write_bytes(icon_data)
+                result = subprocess.run(
+                    ["sips", "-s", "format", "png", str(source), "--out", str(normalized)],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                if result.returncode != 0 or not normalized.exists():
+                    detail = result.stderr.strip() or result.stdout.strip() or "unknown conversion error"
+                    print(f"  [WARN] Could not normalize icon from {ipa_path.name}: {detail}", file=sys.stderr)
+                    return False
+                dest.write_bytes(normalized.read_bytes())
             return True
     except Exception as e:
         print(f"  [WARN] Could not extract icon from {ipa_path.name}: {e}", file=sys.stderr)
@@ -298,7 +314,7 @@ def make_classic_source_entry() -> dict:
     }
 
 
-def make_classic_app_entry(entry: dict) -> dict:
+def make_classic_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
     """Create a full app entry for clasic.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
@@ -306,11 +322,12 @@ def make_classic_app_entry(entry: dict) -> dict:
 
     screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
 
+    description = descriptions.get(entry["bundleIdentifier"], "")
     app = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "localizedDescription": "",
+        "localizedDescription": description,
         "iconURL": icon,
         "tintColor": "#007AFF",
         "versions": [
@@ -320,7 +337,7 @@ def make_classic_app_entry(entry: dict) -> dict:
                 "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
                 "downloadURL": f"{RAW_BASE}/clasic/{entry['ipa_path'].name}",
                 "size": entry["size"],
-                "localizedDescription": "",
+                "localizedDescription": description,
                 **({"minOSVersion": entry["minOSVersion"]} if entry.get("minOSVersion") else {}),
             }
         ],
@@ -352,7 +369,7 @@ def make_pal_source_entry() -> dict:
     }
 
 
-def make_pal_app_entry(entry: dict) -> dict:
+def make_pal_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
     """Create a full app entry for pal.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
@@ -360,12 +377,13 @@ def make_pal_app_entry(entry: dict) -> dict:
 
     screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
 
+    description = descriptions.get(entry["bundleIdentifier"], "")
     app = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "marketplaceID": entry.get("marketplaceID", ""),
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "localizedDescription": "",
+        "localizedDescription": description,
         "category": "utilities",
         "iconURL": icon,
         "tintColor": "#007AFF",
@@ -381,7 +399,7 @@ def make_pal_app_entry(entry: dict) -> dict:
                 "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
                 "downloadURL": f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json",
                 "size": entry["size"],
-                "localizedDescription": "",
+                "localizedDescription": description,
             }
         ],
     }
@@ -457,9 +475,23 @@ def extract_icons(ipa_apps: list[dict], adp_apps: list[dict]):
             print(f"    [SKIP] No icon in {app['adp_dir'].name}")
 
 
+def collect_app_descriptions() -> dict[str, str]:
+    """Preserve descriptions in memory before stale entries are removed."""
+    descriptions = {}
+    for source_path in (CLASIC_SOURCES_JSON, PAL_SOURCES_JSON):
+        source = _load_json(source_path)
+        for app in source.get("apps", []):
+            bundle_id = app.get("bundleIdentifier")
+            description = app.get("localizedDescription")
+            if bundle_id and isinstance(description, str) and description.strip():
+                descriptions[bundle_id] = description
+    return descriptions
+
+
 def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
-    classic_apps = [make_classic_app_entry(app) for app in ipa_apps]
-    pal_apps = [make_pal_app_entry(app) for app in adp_apps]
+    descriptions = collect_app_descriptions()
+    classic_apps = [make_classic_app_entry(app, descriptions) for app in ipa_apps]
+    pal_apps = [make_pal_app_entry(app, descriptions) for app in adp_apps]
 
     def merge(existing: list, new_entries: list, key: str) -> list:
         by_key = {}
@@ -513,7 +545,6 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         else:
             path.write_text(content, encoding="utf-8")
             print(f"  Written: {path.name}")
-
 
 def _load_json(path: Path) -> dict:
     if path.exists():
