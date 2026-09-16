@@ -1,10 +1,16 @@
 {
-  "name": "Santech Inc Apps Repo",
+  "name": "SanTech Inc Apps Repo",
   "identifier": "com.santechinc.repo",
-  "subtitle": "Apps by Santech Inc for AltStore Classic",
+  "subtitle": "Apps by SanTech Inc for AltStore Classic",
+  "localizedSubtitles": {
+    "en": "Apps by SanTech Inc for AltStore Classic"
+  },
   "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
-  "iconURL": "./icons/source_icon.png",
+  "localizedDescriptions": {
+    "en": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer."
+  },
   "website": "https://github.com/santech-inc/repo",
+  "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon.png",
   "tintColor": "#007AFF",
   "apps": [
     {
@@ -12,18 +18,28 @@
       "bundleIdentifier": "com.santechinc.exampleapp",
       "developerName": "SanTech Inc",
       "subtitle": "An example app placeholder.",
+      "localizedSubtitles": {
+        "en": "An example app placeholder."
+      },
       "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
-      "iconURL": "./icons/exampleapp.png",
+      "localizedDescriptions": {
+        "en": "This is a placeholder app. Replace with real app data when publishing."
+      },
+      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/exampleapp.png",
       "tintColor": "#007AFF",
       "category": "utilities",
+      "beta": false,
       "versions": [
         {
           "version": "1.0.0",
           "buildVersion": "1",
           "date": "2026-01-01T00:00:00Z",
+          "size": 0,
+          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/exampleapp.ipa",
           "localizedDescription": "Initial release.",
-          "downloadURL": "./clasic/exampleapp.ipa",
-          "size": 0
+          "localizedDescriptions": {
+            "en": "Initial release."
+          }
         }
       ]
     }
