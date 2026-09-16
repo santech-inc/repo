@@ -204,8 +204,8 @@ def build_app_entry_from_adp(adp_dir: Path, manifest: dict) -> dict | None:
 # ---------------------------------------------------------------------------
 
 def find_existing_icon(bundle_id: str) -> str | None:
-    """Check if an icon already exists for this bundle ID (.svg or .png)."""
-    for ext in (".svg", ".png"):
+    """Check if an icon already exists for this bundle ID (prefer .png)."""
+    for ext in (".png", ".svg"):
         name = bundle_id.replace(".", "_") + ext
         if (ICONS_DIR / name).exists():
             return f"./icons/{name}"
@@ -213,23 +213,39 @@ def find_existing_icon(bundle_id: str) -> str | None:
 
 
 def make_mixed_entry(entry: dict, distribution: str) -> dict:
-    """Create an entry for sources.json (mixed format)."""
+    """Create a full app entry for sources.json (mixed format)."""
     if distribution == "classic":
         download = f"./clasic/{entry['ipa_path'].name}"
     else:
         download = f"./pal/{entry['adp_dir'].name}/manifest.json"
 
+    icon = find_existing_icon(entry["bundleIdentifier"])
+    if not icon:
+        icon = f"./icons/{entry['bundleIdentifier'].replace('.', '_')}.png"
+
     result = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
-        "version": entry["version"],
-        "downloadURL": download,
+        "developerName": entry.get("developerName", "SanTech Inc"),
+        "subtitle": entry.get("subtitle", ""),
+        "localizedDescription": entry.get("localizedDescription", ""),
+        "iconURL": icon,
+        "tintColor": "#2D80E4",
+        "category": entry.get("category", "utilities"),
         "distribution": distribution,
+        "versions": [
+            {
+                "version": entry["version"],
+                "buildVersion": entry.get("buildVersion", "1"),
+                "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
+                "downloadURL": download,
+                "size": entry["size"],
+                **({"minOSVersion": entry["minOSVersion"]} if entry.get("minOSVersion") else {}),
+            }
+        ],
     }
-
-    icon = find_existing_icon(entry["bundleIdentifier"])
-    if icon:
-        result["iconURL"] = icon
+    if entry.get("marketplaceID"):
+        result["marketplaceID"] = entry["marketplaceID"]
 
     return result
 
@@ -380,6 +396,7 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         "subtitle": "Apps by SanTech Inc for AltStore Classic & PAL",
         "description": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
         "website": "https://github.com/santech-inc/repo",
+        "iconURL": "./icons/source_icon.png",
         "apps": all_mixed,
     }
 
@@ -389,7 +406,7 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         **SOURCE_TEMPLATE,
         "subtitle": "Apps by SanTech Inc for AltStore Classic",
         "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
-        "iconURL": "./icons/source_icon.svg",
+        "iconURL": "./icons/source_icon.png",
         "apps": merge(existing_clasic.get("apps", []), classic_full, "bundleIdentifier"),
     }
 
@@ -399,7 +416,7 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         **SOURCE_TEMPLATE,
         "subtitle": "Apps by SanTech Inc for AltStore PAL",
         "description": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil.",
-        "iconURL": "./icons/source_icon.svg",
+        "iconURL": "./icons/source_icon.png",
         "apps": merge(existing_pal.get("apps", []), pal_full, "bundleIdentifier"),
     }
 
