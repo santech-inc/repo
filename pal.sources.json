@@ -1,6 +1,5 @@
 {
   "name": "SanTech Inc Apps Repo",
-  "identifier": "com.santechinc.repo",
   "subtitle": "Apps by SanTech Inc for AltStore PAL",
   "localizedSubtitles": {
     "en": "Apps by SanTech Inc for AltStore PAL"
@@ -12,40 +11,31 @@
   "website": "https://github.com/santech-inc/repo",
   "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon.png",
   "tintColor": "#007AFF",
+  "featuredApps": [],
   "apps": [
     {
       "name": "ExampleApp",
       "bundleIdentifier": "com.santechinc.exampleapp",
       "marketplaceID": "12345678",
       "developerName": "SanTech Inc",
-      "subtitle": "An example app placeholder.",
-      "localizedSubtitles": {
-        "en": "An example app placeholder."
-      },
       "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
-      "localizedDescriptions": {
-        "en": "This is a placeholder app. Replace with real app data when publishing."
-      },
+      "category": "utilities",
       "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/exampleapp.png",
       "tintColor": "#007AFF",
-      "category": "utilities",
-      "beta": false,
-      "screenshots": {},
+      "minOSVersion": "14.0",
       "appPermissions": {
         "entitlements": [],
-        "privacy": {}
+        "privacy": []
       },
+      "screenshots": {},
       "versions": [
         {
           "version": "1.0.0",
           "buildVersion": "1",
-          "date": "2026-01-01T00:00:00Z",
-          "size": 0,
+          "date": "2026-01-01",
           "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/pal/exampleapp/manifest.json",
-          "localizedDescription": "Initial release.",
-          "localizedDescriptions": {
-            "en": "Initial release."
-          }
+          "size": 0,
+          "localizedDescription": "Initial release."
         }
       ]
     }

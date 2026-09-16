@@ -33,13 +33,6 @@ MANIFEST_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 RAW_BASE = "https://raw.githubusercontent.com/santech-inc/repo/main"
 REPO_URL = "https://github.com/santech-inc/repo"
 
-SOURCE_TEMPLATE = {
-    "name": "SanTech Inc Apps Repo",
-    "identifier": "com.santechinc.repo",
-    "website": REPO_URL,
-    "tintColor": "#007AFF",
-}
-
 
 # ---------------------------------------------------------------------------
 # IPA helpers
@@ -102,7 +95,6 @@ def extract_ipa_icon(ipa_path: Path, dest: Path) -> bool:
             candidates.sort(key=lambda x: x[0], reverse=True)
             _, icon_name = candidates[0]
             icon_data = zf.read(icon_name)
-            ext = Path(icon_name).suffix or ".png"
             dest.write_bytes(icon_data)
             return True
     except Exception as e:
@@ -203,7 +195,7 @@ def build_app_entry_from_adp(adp_dir: Path, manifest: dict) -> dict | None:
 
 
 # ---------------------------------------------------------------------------
-# JSON builders
+# URL helpers
 # ---------------------------------------------------------------------------
 
 def find_existing_icon(bundle_id: str) -> str | None:
@@ -220,83 +212,203 @@ def default_icon_url(bundle_id: str) -> str:
     return f"{RAW_BASE}/icons/{bundle_id.replace('.', '_')}.png"
 
 
-def make_base_app_fields(entry: dict) -> dict:
-    """Build the common app-level fields matching Cizzuk's structure."""
+def collect_screenshot_urls(bundle_id: str) -> list[str]:
+    """Collect screenshot URLs from the screenshots/ folder for an app."""
+    urls = []
+    prefix = bundle_id.replace(".", "_")
+    if not SCREENSHOTS_DIR.exists():
+        return urls
+    for f in sorted(SCREENSHOTS_DIR.glob(f"{prefix}_*.png")):
+        urls.append(f"{RAW_BASE}/screenshots/{f.name}")
+    return urls
+
+
+# ---------------------------------------------------------------------------
+# JSON builders — Classic format (UTM Classic style)
+# ---------------------------------------------------------------------------
+
+def make_classic_source_entry() -> dict:
+    """Create the source-level structure for clasic.sources.json."""
+    return {
+        "name": "SanTech Inc Apps Repo",
+        "identifier": "com.santechinc.repo",
+        "subtitle": "Apps by SanTech Inc for AltStore Classic",
+        "localizedSubtitles": {"en": "Apps by SanTech Inc for AltStore Classic"},
+        "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
+        "localizedDescriptions": {
+            "en": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer."
+        },
+        "website": REPO_URL,
+        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
+        "tintColor": "#007AFF",
+        "featuredApps": [],
+        "news": [],
+    }
+
+
+def make_classic_app_entry(entry: dict) -> dict:
+    """Create a full app entry for clasic.sources.json (UTM Classic format)."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
         icon = default_icon_url(entry["bundleIdentifier"])
 
-    name = entry["name"]
-    return {
-        "name": name,
+    screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
+
+    app = {
+        "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "subtitle": "",
-        "localizedSubtitles": {"en": ""},
         "localizedDescription": "",
-        "localizedDescriptions": {"en": ""},
         "iconURL": icon,
         "tintColor": "#007AFF",
-        "category": "utilities",
-        "beta": False,
-        "screenshots": {},
-        "appPermissions": {"entitlements": [], "privacy": {}},
+        "versions": [
+            {
+                "version": entry["version"],
+                "buildVersion": entry.get("buildVersion", "1"),
+                "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
+                "downloadURL": f"{RAW_BASE}/clasic/{entry['ipa_path'].name}",
+                "size": entry["size"],
+                "localizedDescription": "",
+                **({"minOSVersion": entry["minOSVersion"]} if entry.get("minOSVersion") else {}),
+            }
+        ],
+    }
+    if screenshot_urls:
+        app["screenshotURLs"] = screenshot_urls
+
+    return app
+
+
+# ---------------------------------------------------------------------------
+# JSON builders — PAL format (UTM PAL style)
+# ---------------------------------------------------------------------------
+
+def make_pal_source_entry() -> dict:
+    """Create the source-level structure for pal.sources.json."""
+    return {
+        "name": "SanTech Inc Apps Repo",
+        "subtitle": "Apps by SanTech Inc for AltStore PAL",
+        "localizedSubtitles": {"en": "Apps by SanTech Inc for AltStore PAL"},
+        "description": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil.",
+        "localizedDescriptions": {
+            "en": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil."
+        },
+        "website": REPO_URL,
+        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
+        "tintColor": "#007AFF",
+        "featuredApps": [],
     }
 
 
-def make_version_entry(entry: dict, download_url: str) -> dict:
-    """Build a single version entry."""
+def make_pal_app_entry(entry: dict) -> dict:
+    """Create a full app entry for pal.sources.json (UTM PAL format)."""
+    icon = find_existing_icon(entry["bundleIdentifier"])
+    if not icon:
+        icon = default_icon_url(entry["bundleIdentifier"])
+
+    app = {
+        "name": entry["name"],
+        "bundleIdentifier": entry["bundleIdentifier"],
+        "marketplaceID": entry.get("marketplaceID", ""),
+        "developerName": entry.get("developerName", "SanTech Inc"),
+        "localizedDescription": "",
+        "category": "utilities",
+        "iconURL": icon,
+        "tintColor": "#007AFF",
+        "appPermissions": {
+            "entitlements": [],
+            "privacy": [],
+        },
+        "screenshots": {},
+        "versions": [
+            {
+                "version": entry["version"],
+                "buildVersion": entry.get("buildVersion", "1"),
+                "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "downloadURL": f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json",
+                "size": entry["size"],
+                "localizedDescription": "",
+            }
+        ],
+    }
+    if entry.get("minOSVersion"):
+        app["minOSVersion"] = entry["minOSVersion"]
+
+    return app
+
+
+# ---------------------------------------------------------------------------
+# JSON builders — Mixed format (for landing page, both Classic + PAL)
+# ---------------------------------------------------------------------------
+
+def make_mixed_source_entry() -> dict:
+    """Create the source-level structure for sources.json (mixed)."""
+    return {
+        "name": "SanTech Inc Apps Repo",
+        "identifier": "com.santechinc.repo",
+        "subtitle": "Apps by SanTech Inc for AltStore Classic & PAL",
+        "localizedSubtitles": {"en": "Apps by SanTech Inc for AltStore Classic & PAL"},
+        "description": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
+        "localizedDescriptions": {
+            "en": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace)."
+        },
+        "website": REPO_URL,
+        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
+        "tintColor": "#007AFF",
+        "featuredApps": [],
+        "news": [],
+    }
+
+
+def make_mixed_app_entry(entry: dict, distribution: str) -> dict:
+    """Create a full app entry for sources.json (mixed format, both Classic + PAL fields)."""
+    icon = find_existing_icon(entry["bundleIdentifier"])
+    if not icon:
+        icon = default_icon_url(entry["bundleIdentifier"])
+
+    screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
+
+    if distribution == "classic":
+        download_url = f"{RAW_BASE}/clasic/{entry['ipa_path'].name}"
+    else:
+        download_url = f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json"
+
     version_entry = {
         "version": entry["version"],
         "buildVersion": entry.get("buildVersion", "1"),
         "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
-        "size": entry["size"],
         "downloadURL": download_url,
+        "size": entry["size"],
         "localizedDescription": "",
-        "localizedDescriptions": {"en": ""},
+        **({"minOSVersion": entry["minOSVersion"]} if entry.get("minOSVersion") else {}),
     }
+
+    app = {
+        "name": entry["name"],
+        "bundleIdentifier": entry["bundleIdentifier"],
+        "developerName": entry.get("developerName", "SanTech Inc"),
+        "localizedDescription": "",
+        "iconURL": icon,
+        "tintColor": "#007AFF",
+        "category": "utilities",
+        "beta": False,
+        "distribution": distribution,
+        "versions": [version_entry],
+    }
+
+    # Classic-style fields
+    if screenshot_urls:
+        app["screenshotURLs"] = screenshot_urls
+
+    # PAL-style fields
+    if entry.get("marketplaceID"):
+        app["marketplaceID"] = entry["marketplaceID"]
     if entry.get("minOSVersion"):
-        version_entry["minOSVersion"] = entry["minOSVersion"]
-    return version_entry
+        app["minOSVersion"] = entry["minOSVersion"]
+    app["appPermissions"] = {"entitlements": [], "privacy": []}
+    app["screenshots"] = {}
 
-
-def make_mixed_entry(entry: dict, distribution: str) -> dict:
-    """Create a full app entry for sources.json (mixed format)."""
-    if distribution == "classic":
-        download = f"{RAW_BASE}/clasic/{entry['ipa_path'].name}"
-    else:
-        download = f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json"
-
-    result = make_base_app_fields(entry)
-    result["distribution"] = distribution
-    result["versions"] = [make_version_entry(entry, download)]
-
-    if entry.get("marketplaceID"):
-        result["marketplaceID"] = entry["marketplaceID"]
-
-    return result
-
-
-def make_classic_entry(entry: dict) -> dict:
-    """Create a full app entry for clasic.sources.json."""
-    result = make_base_app_fields(entry)
-    result.pop("screenshots", None)
-    result.pop("appPermissions", None)
-    result["versions"] = [
-        make_version_entry(entry, f"{RAW_BASE}/clasic/{entry['ipa_path'].name}")
-    ]
-    return result
-
-
-def make_pal_entry(entry: dict) -> dict:
-    """Create a full app entry for pal.sources.json."""
-    result = make_base_app_fields(entry)
-    result["versions"] = [
-        make_version_entry(entry, f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json")
-    ]
-    if entry.get("marketplaceID"):
-        result["marketplaceID"] = entry["marketplaceID"]
-    return result
+    return app
 
 
 # ---------------------------------------------------------------------------
@@ -366,17 +478,18 @@ def extract_icons(ipa_apps: list[dict], adp_apps: list[dict]):
 
 
 def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
-    all_mixed = []
-    classic_full = []
-    pal_full = []
+    # Build app entries for each format
+    mixed_apps = []
+    classic_apps = []
+    pal_apps = []
 
     for app in ipa_apps:
-        all_mixed.append(make_mixed_entry(app, "classic"))
-        classic_full.append(make_classic_entry(app))
+        mixed_apps.append(make_mixed_app_entry(app, "classic"))
+        classic_apps.append(make_classic_app_entry(app))
 
     for app in adp_apps:
-        all_mixed.append(make_mixed_entry(app, "pal"))
-        pal_full.append(make_pal_entry(app))
+        mixed_apps.append(make_mixed_app_entry(app, "pal"))
+        pal_apps.append(make_pal_app_entry(app))
 
     def merge(existing: list, new_entries: list, key: str) -> list:
         by_key = {}
@@ -387,54 +500,25 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         return list(by_key.values())
 
     # sources.json (mixed)
-    mixed_data = {
-        "name": "SanTech Inc Apps Repo",
-        "identifier": "com.santechinc.repo",
-        "subtitle": "Apps by SanTech Inc for AltStore Classic & PAL",
-        "localizedSubtitles": {
-            "en": "Apps by SanTech Inc for AltStore Classic & PAL",
-        },
-        "description": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
-        "localizedDescriptions": {
-            "en": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
-        },
-        "website": REPO_URL,
-        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
-        "tintColor": "#007AFF",
-        "apps": all_mixed,
-    }
+    mixed_data = make_mixed_source_entry()
+    mixed_data["apps"] = mixed_apps
 
     # clasic.sources.json
     existing_clasic = _load_json(CLASIC_SOURCES_JSON)
-    clasic_data = {
-        **SOURCE_TEMPLATE,
-        "subtitle": "Apps by SanTech Inc for AltStore Classic",
-        "localizedSubtitles": {
-            "en": "Apps by SanTech Inc for AltStore Classic",
-        },
-        "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
-        "localizedDescriptions": {
-            "en": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
-        },
-        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
-        "apps": merge(existing_clasic.get("apps", []), classic_full, "bundleIdentifier"),
-    }
+    clasic_data = make_classic_source_entry()
+    clasic_data["apps"] = merge(
+        existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"
+    )
+    # Sync featuredApps from apps
+    clasic_data["featuredApps"] = [a["bundleIdentifier"] for a in clasic_data["apps"]]
 
     # pal.sources.json
     existing_pal = _load_json(PAL_SOURCES_JSON)
-    pal_data = {
-        **SOURCE_TEMPLATE,
-        "subtitle": "Apps by SanTech Inc for AltStore PAL",
-        "localizedSubtitles": {
-            "en": "Apps by SanTech Inc for AltStore PAL",
-        },
-        "description": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil.",
-        "localizedDescriptions": {
-            "en": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil.",
-        },
-        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
-        "apps": merge(existing_pal.get("apps", []), pal_full, "bundleIdentifier"),
-    }
+    pal_data = make_pal_source_entry()
+    pal_data["apps"] = merge(
+        existing_pal.get("apps", []), pal_apps, "bundleIdentifier"
+    )
+    pal_data["featuredApps"] = [a["bundleIdentifier"] for a in pal_data["apps"]]
 
     files = [
         (SOURCES_JSON, mixed_data),
@@ -446,7 +530,7 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         content = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
         if dry_run:
             print(f"\n--- {path.name} (dry run) ---")
-            print(content[:500] + ("..." if len(content) > 500 else ""))
+            print(content[:800] + ("..." if len(content) > 800 else ""))
         else:
             path.write_text(content, encoding="utf-8")
             print(f"  Written: {path.name}")
