@@ -1,7 +1,7 @@
 {
   "name": "Santech Inc Apps Repo",
   "identifier": "com.santechinc.repo",
-  "subtitle": "Apps by Santech Inc for AltStore Classic & PAL",
+  "subtitle": "Apps by SanTech Inc for AltStore Classic & PAL",
   "description": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
   "website": "https://github.com/santech-inc/repo",
   "apps": [
@@ -9,6 +9,7 @@
       "name": "ExampleApp",
       "bundleIdentifier": "com.santechinc.exampleapp",
       "version": "1.0.0",
+      "iconURL": "./icons/exampleapp.svg",
       "downloadURL": "./clasic/exampleapp.ipa",
       "distribution": "classic"
     },
@@ -16,8 +17,11 @@
       "name": "ExampleApp",
       "bundleIdentifier": "com.santechinc.exampleapp",
       "version": "1.0.0",
+      "iconURL": "./icons/exampleapp.svg",
       "downloadURL": "./pal/exampleapp/manifest.json",
       "distribution": "pal"
     }
+  ]
+}
   ]
 }

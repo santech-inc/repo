@@ -203,6 +203,15 @@ def build_app_entry_from_adp(adp_dir: Path, manifest: dict) -> dict | None:
 # JSON builders
 # ---------------------------------------------------------------------------
 
+def find_existing_icon(bundle_id: str) -> str | None:
+    """Check if an icon already exists for this bundle ID (.svg or .png)."""
+    for ext in (".svg", ".png"):
+        name = bundle_id.replace(".", "_") + ext
+        if (ICONS_DIR / name).exists():
+            return f"./icons/{name}"
+    return None
+
+
 def make_mixed_entry(entry: dict, distribution: str) -> dict:
     """Create an entry for sources.json (mixed format)."""
     if distribution == "classic":
@@ -210,7 +219,7 @@ def make_mixed_entry(entry: dict, distribution: str) -> dict:
     else:
         download = f"./pal/{entry['adp_dir'].name}/manifest.json"
 
-    return {
+    result = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "version": entry["version"],
@@ -218,15 +227,23 @@ def make_mixed_entry(entry: dict, distribution: str) -> dict:
         "distribution": distribution,
     }
 
+    icon = find_existing_icon(entry["bundleIdentifier"])
+    if icon:
+        result["iconURL"] = icon
+
+    return result
+
 
 def make_classic_entry(entry: dict) -> dict:
     """Create a full app entry for clasic.sources.json."""
-    icon_name = entry["bundleIdentifier"].replace(".", "_") + ".png"
+    icon = find_existing_icon(entry["bundleIdentifier"])
+    if not icon:
+        icon = f"./icons/{entry['bundleIdentifier'].replace('.', '_')}.png"
     return {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "iconURL": f"./icons/{icon_name}",
+        "iconURL": icon,
         "tintColor": "#2D80E4",
         "versions": [
             {
@@ -243,12 +260,14 @@ def make_classic_entry(entry: dict) -> dict:
 
 def make_pal_entry(entry: dict) -> dict:
     """Create a full app entry for pal.sources.json."""
-    icon_name = entry["bundleIdentifier"].replace(".", "_") + ".png"
+    icon = find_existing_icon(entry["bundleIdentifier"])
+    if not icon:
+        icon = f"./icons/{entry['bundleIdentifier'].replace('.', '_')}.png"
     result = {
         "name": entry["name"],
         "bundleIdentifier": entry["bundleIdentifier"],
         "developerName": entry.get("developerName", "SanTech Inc"),
-        "iconURL": f"./icons/{icon_name}",
+        "iconURL": icon,
         "tintColor": "#2D80E4",
         "versions": [
             {
