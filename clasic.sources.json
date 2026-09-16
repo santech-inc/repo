@@ -10,7 +10,7 @@
     "en": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer."
   },
   "website": "https://github.com/santech-inc/repo",
-  "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon.png",
+  "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon_v2.png",
   "tintColor": "#007AFF",
   "featuredApps": [
     "com.santech.simonOnMars"
@@ -28,7 +28,7 @@
         {
           "version": "1.0.0",
           "buildVersion": "50",
-          "date": "2026-09-16T16:36:12Z",
+          "date": "2026-09-16T16:39:30Z",
           "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/SimonOnMars-v1.0.0.ipa",
           "size": 72792728,
           "localizedDescription": "",

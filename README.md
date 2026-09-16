@@ -74,7 +74,7 @@ https://santech-inc.github.io/repo/pal.sources.json
   "identifier": "com.santechinc.repo",
   "subtitle": "Apps by SanTech Inc for AltStore Classic",
   "description": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer.",
-  "iconURL": "./icons/source_icon.svg",
+  "iconURL": "./icons/source_icon_v2.png",
   "website": "https://github.com/santech-inc/repo",
   "tintColor": "#2D80E4",
   "apps": [
@@ -84,7 +84,7 @@ https://santech-inc.github.io/repo/pal.sources.json
       "developerName": "SanTech Inc",
       "subtitle": "An example app placeholder.",
       "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
-      "iconURL": "./icons/exampleapp.svg",
+      "iconURL": "./icons/exampleapp.png",
       "tintColor": "#2D80E4",
       "category": "utilities",
       "versions": [
@@ -113,7 +113,7 @@ https://santech-inc.github.io/repo/pal.sources.json
   "identifier": "com.santechinc.repo",
   "subtitle": "Apps by SanTech Inc for AltStore PAL",
   "description": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil.",
-  "iconURL": "./icons/source_icon.svg",
+  "iconURL": "./icons/source_icon_v2.png",
   "website": "https://github.com/santech-inc/repo",
   "tintColor": "#2D80E4",
   "apps": [
@@ -124,7 +124,7 @@ https://santech-inc.github.io/repo/pal.sources.json
       "developerName": "SanTech Inc",
       "subtitle": "An example app placeholder.",
       "localizedDescription": "This is a placeholder app. Replace with real app data when publishing.",
-      "iconURL": "./icons/exampleapp.svg",
+      "iconURL": "./icons/exampleapp.png",
       "tintColor": "#2D80E4",
       "category": "utilities",
       "versions": [

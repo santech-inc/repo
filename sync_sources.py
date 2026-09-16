@@ -291,7 +291,7 @@ def make_classic_source_entry() -> dict:
             "en": "A curated collection of apps distributed via AltStore Classic. Sideload your favorite apps using AltServer."
         },
         "website": REPO_URL,
-        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
+        "iconURL": f"{RAW_BASE}/icons/source_icon_v2.png",
         "tintColor": "#007AFF",
         "featuredApps": [],
         "news": [],
@@ -346,7 +346,7 @@ def make_pal_source_entry() -> dict:
             "en": "A curated collection of apps distributed via AltStore PAL. Available in the EU, Japan, and Brazil."
         },
         "website": REPO_URL,
-        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
+        "iconURL": f"{RAW_BASE}/icons/source_icon_v2.png",
         "tintColor": "#007AFF",
         "featuredApps": [],
     }
