@@ -86,9 +86,6 @@
     var metaParts = [];
     if (app.version) metaParts.push("v" + app.version);
     if (app.developerName) metaParts.push(app.developerName);
-    if (dists.classic && dists.pal) metaParts.push("CLASSIC + PAL");
-    else if (dists.classic) metaParts.push("CLASSIC");
-    else if (dists.pal) metaParts.push("PAL");
     var desc = app.localizedDescription || app.subtitle || "";
 
     card.innerHTML =
