@@ -1,7 +1,6 @@
 (function () {
   "use strict";
 
-  var SOURCE_JSON = "./sources.json";
   var CLASIC_JSON = "./clasic.sources.json";
   var PAL_JSON = "./pal.sources.json";
 
@@ -79,8 +78,8 @@
 
     var iconSrc = app.iconURL ? resolveUrl(app.iconURL) : "";
     var metaParts = [];
-    if (app.version) metaParts.push("v" + app.version);
     if (app.developerName) metaParts.push(app.developerName);
+    if (app.category) metaParts.push(app.category);
     var desc = app.localizedDescription || app.subtitle || "";
 
     card.innerHTML =
@@ -106,31 +105,45 @@
     return card;
   }
 
-  function renderApps(data) {
+  function mergeApps(classicData, palData) {
+    var apps = {};
+
+    if (classicData && classicData.apps) {
+      for (var i = 0; i < classicData.apps.length; i++) {
+        var app = classicData.apps[i];
+        var key = app.bundleIdentifier || app.name;
+        apps[key] = { app: app, dists: { classic: true, pal: false } };
+      }
+    }
+
+    if (palData && palData.apps) {
+      for (var j = 0; j < palData.apps.length; j++) {
+        var palApp = palData.apps[j];
+        var palKey = palApp.bundleIdentifier || palApp.name;
+        if (apps[palKey]) {
+          apps[palKey].dists.pal = true;
+        } else {
+          apps[palKey] = { app: palApp, dists: { classic: false, pal: true } };
+        }
+      }
+    }
+
+    return apps;
+  }
+
+  function renderApps(apps) {
     var container = document.getElementById("apps-list");
     if (!container) return;
 
-    if (!data || !data.apps || data.apps.length === 0) {
+    var keys = Object.keys(apps);
+    if (keys.length === 0) {
       container.innerHTML = '<p class="empty">No apps available yet.</p>';
       return;
     }
 
     container.innerHTML = "";
-    var apps = {};
-    for (var i = 0; i < data.apps.length; i++) {
-      var app = data.apps[i];
-      var key = app.bundleIdentifier || app.name;
-      if (!apps[key]) {
-        apps[key] = { app: app, dists: { classic: false, pal: false } };
-      }
-      var dist = app.distribution || "";
-      if (dist === "classic") apps[key].dists.classic = true;
-      else if (dist === "pal") apps[key].dists.pal = true;
-    }
-
-    var keys = Object.keys(apps);
-    for (var j = 0; j < keys.length; j++) {
-      var entry = apps[keys[j]];
+    for (var i = 0; i < keys.length; i++) {
+      var entry = apps[keys[i]];
       container.appendChild(createAppCard(entry.app, entry.dists));
     }
   }
@@ -145,13 +158,19 @@
     return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
+  function fetchJson(url) {
+    return fetch(url).then(function (res) {
+      if (!res.ok) throw new Error("Failed to load " + url);
+      return res.json();
+    });
+  }
+
   function loadApps() {
-    fetch(SOURCE_JSON)
-      .then(function (res) {
-        if (!res.ok) throw new Error("Failed to load sources");
-        return res.json();
+    Promise.all([fetchJson(CLASIC_JSON), fetchJson(PAL_JSON)])
+      .then(function (results) {
+        var apps = mergeApps(results[0], results[1]);
+        renderApps(apps);
       })
-      .then(renderApps)
       .catch(function () {
         var container = document.getElementById("apps-list");
         if (container) container.innerHTML = '<p class="empty">Could not load apps.</p>';

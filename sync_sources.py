@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 sync_sources.py — Scan clasic/ and pal/ for IPA/ADP files,
-extract metadata, update all three sources JSON, and copy icons.
+extract metadata, update Classic and PAL source JSONs, and copy icons.
 
 Usage:
     python3 sync_sources.py [--dry-run]
@@ -24,7 +24,6 @@ CLASIC_DIR = ROOT / "clasic"
 PAL_DIR = ROOT / "pal"
 ICONS_DIR = ROOT / "icons"
 SCREENSHOTS_DIR = ROOT / "screenshots"
-SOURCES_JSON = ROOT / "sources.json"
 CLASIC_SOURCES_JSON = ROOT / "clasic.sources.json"
 PAL_SOURCES_JSON = ROOT / "pal.sources.json"
 
@@ -224,7 +223,7 @@ def collect_screenshot_urls(bundle_id: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# JSON builders — Classic format (UTM Classic style)
+# JSON builders — Classic format
 # ---------------------------------------------------------------------------
 
 def make_classic_source_entry() -> dict:
@@ -247,7 +246,7 @@ def make_classic_source_entry() -> dict:
 
 
 def make_classic_app_entry(entry: dict) -> dict:
-    """Create a full app entry for clasic.sources.json (UTM Classic format)."""
+    """Create a full app entry for clasic.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
         icon = default_icon_url(entry["bundleIdentifier"])
@@ -280,7 +279,7 @@ def make_classic_app_entry(entry: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# JSON builders — PAL format (UTM PAL style)
+# JSON builders — PAL format
 # ---------------------------------------------------------------------------
 
 def make_pal_source_entry() -> dict:
@@ -301,7 +300,7 @@ def make_pal_source_entry() -> dict:
 
 
 def make_pal_app_entry(entry: dict) -> dict:
-    """Create a full app entry for pal.sources.json (UTM PAL format)."""
+    """Create a full app entry for pal.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
         icon = default_icon_url(entry["bundleIdentifier"])
@@ -333,79 +332,6 @@ def make_pal_app_entry(entry: dict) -> dict:
     }
     if entry.get("minOSVersion"):
         app["minOSVersion"] = entry["minOSVersion"]
-
-    return app
-
-
-# ---------------------------------------------------------------------------
-# JSON builders — Mixed format (for landing page, both Classic + PAL)
-# ---------------------------------------------------------------------------
-
-def make_mixed_source_entry() -> dict:
-    """Create the source-level structure for sources.json (mixed)."""
-    return {
-        "name": "SanTech Inc Apps Repo",
-        "identifier": "com.santechinc.repo",
-        "subtitle": "Apps by SanTech Inc for AltStore Classic & PAL",
-        "localizedSubtitles": {"en": "Apps by SanTech Inc for AltStore Classic & PAL"},
-        "description": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace).",
-        "localizedDescriptions": {
-            "en": "A curated collection of apps distributed via AltStore. Available for both Classic (sideloading) and PAL (EU/Japan/Brazil marketplace)."
-        },
-        "website": REPO_URL,
-        "iconURL": f"{RAW_BASE}/icons/source_icon.png",
-        "tintColor": "#007AFF",
-        "featuredApps": [],
-        "news": [],
-    }
-
-
-def make_mixed_app_entry(entry: dict, distribution: str) -> dict:
-    """Create a full app entry for sources.json (mixed format, both Classic + PAL fields)."""
-    icon = find_existing_icon(entry["bundleIdentifier"])
-    if not icon:
-        icon = default_icon_url(entry["bundleIdentifier"])
-
-    screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
-
-    if distribution == "classic":
-        download_url = f"{RAW_BASE}/clasic/{entry['ipa_path'].name}"
-    else:
-        download_url = f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json"
-
-    version_entry = {
-        "version": entry["version"],
-        "buildVersion": entry.get("buildVersion", "1"),
-        "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
-        "downloadURL": download_url,
-        "size": entry["size"],
-        "localizedDescription": "",
-        **({"minOSVersion": entry["minOSVersion"]} if entry.get("minOSVersion") else {}),
-    }
-
-    app = {
-        "name": entry["name"],
-        "bundleIdentifier": entry["bundleIdentifier"],
-        "developerName": entry.get("developerName", "SanTech Inc"),
-        "localizedDescription": "",
-        "iconURL": icon,
-        "tintColor": "#007AFF",
-        "category": "utilities",
-        "beta": False,
-        "distribution": distribution,
-        "versions": [version_entry],
-    }
-
-    # Classic-style fields
-    if screenshot_urls:
-        app["screenshotURLs"] = screenshot_urls
-
-    # PAL-style fields
-    app["marketplaceID"] = entry.get("marketplaceID", "0000000000")
-    if entry.get("minOSVersion"):
-        app["minOSVersion"] = entry["minOSVersion"]
-    app["appPermissions"] = {"entitlements": [], "privacy": {}}
-    app["screenshots"] = {}
 
     return app
 
@@ -477,17 +403,13 @@ def extract_icons(ipa_apps: list[dict], adp_apps: list[dict]):
 
 
 def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
-    # Build app entries for each format
-    mixed_apps = []
     classic_apps = []
     pal_apps = []
 
     for app in ipa_apps:
-        mixed_apps.append(make_mixed_app_entry(app, "classic"))
         classic_apps.append(make_classic_app_entry(app))
 
     for app in adp_apps:
-        mixed_apps.append(make_mixed_app_entry(app, "pal"))
         pal_apps.append(make_pal_app_entry(app))
 
     def merge(existing: list, new_entries: list, key: str) -> list:
@@ -498,17 +420,12 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
             by_key[item[key]] = item
         return list(by_key.values())
 
-    # sources.json (mixed)
-    mixed_data = make_mixed_source_entry()
-    mixed_data["apps"] = mixed_apps
-
     # clasic.sources.json
     existing_clasic = _load_json(CLASIC_SOURCES_JSON)
     clasic_data = make_classic_source_entry()
     clasic_data["apps"] = merge(
         existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"
     )
-    # Sync featuredApps from apps
     clasic_data["featuredApps"] = [a["bundleIdentifier"] for a in clasic_data["apps"]]
 
     # pal.sources.json
@@ -520,7 +437,6 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
     pal_data["featuredApps"] = [a["bundleIdentifier"] for a in pal_data["apps"]]
 
     files = [
-        (SOURCES_JSON, mixed_data),
         (CLASIC_SOURCES_JSON, clasic_data),
         (PAL_SOURCES_JSON, pal_data),
     ]
