@@ -13,7 +13,8 @@
   "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon_v2.png",
   "tintColor": "#007AFF",
   "featuredApps": [
-    "com.santech.simonOnMars"
+    "com.santech.simonOnMars",
+    "com.santech.businessManager"
   ],
   "news": [],
   "apps": [
@@ -28,7 +29,7 @@
         {
           "version": "1.0.0",
           "buildVersion": "50",
-          "date": "2026-09-16T20:42:19Z",
+          "date": "2026-09-16T21:52:47Z",
           "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/SimonOnMars-v1.0.0.ipa",
           "size": 72792731,
           "localizedDescription": "Initial release of Simon On Mars.",
@@ -53,6 +54,29 @@
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_5.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_6.jpg"
       ]
+    },
+    {
+      "name": "Business Manager",
+      "bundleIdentifier": "com.santech.businessManager",
+      "developerName": "SanTech Inc",
+      "localizedDescription": "Business Manager helps small businesses manage sales, inventory, customers,\nand day-to-day operations from one place.",
+      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_businessManager.png",
+      "tintColor": "#007AFF",
+      "versions": [
+        {
+          "version": "1.0.0",
+          "buildVersion": "7",
+          "date": "2026-09-16T21:52:47Z",
+          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/BusinessManager-v1.0.0.ipa",
+          "size": 13672850,
+          "localizedDescription": "Initial Business Manager iOS release.",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "localizedDescriptions": {
+        "en-US": "Business Manager helps small businesses manage sales, inventory, customers,\nand day-to-day operations from one place.",
+        "es-ES": "Business Manager ayuda a las pequenas empresas a gestionar ventas, inventario,\nclientes y las operaciones diarias desde un solo lugar."
+      }
     }
   ]
 }
