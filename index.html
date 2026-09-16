@@ -18,20 +18,26 @@
     <h1>SanTech Inc Apps Repo</h1>
     <p class="subtitle">Apps for AltStore Classic &amp; PAL</p>
     <div class="add-source-actions">
-      <a id="btn-classic" class="btn btn-classic" href="#">Add to AltStore Classic</a>
-      <a id="btn-pal" class="btn btn-pal" href="#">Add to AltStore PAL</a>
+      <a id="btn-all" class="btn btn-all" href="#">Add to AltStore</a>
+      <a id="btn-classic" class="btn btn-classic" href="#">Classic</a>
+      <a id="btn-pal" class="btn btn-pal" href="#">PAL</a>
     </div>
     <div class="source-urls">
       <p class="source-urls-label">Or copy the source URL and paste it manually in AltStore:</p>
       <div class="source-url-row">
-        <span class="source-url-tag">Classic</span>
-        <code id="url-classic" class="source-url-value"></code>
-        <button class="copy-btn" data-target="url-classic" aria-label="Copy Classic URL">Copy</button>
+        <span class="source-url-tag tag-all">All</span>
+        <code id="url-all" class="source-url-value"></code>
+        <button class="copy-btn" data-copy-path="sources.json">Copy</button>
       </div>
       <div class="source-url-row">
-        <span class="source-url-tag">PAL</span>
+        <span class="source-url-tag tag-classic">Classic</span>
+        <code id="url-classic" class="source-url-value"></code>
+        <button class="copy-btn" data-copy-path="clasic.sources.json">Copy</button>
+      </div>
+      <div class="source-url-row">
+        <span class="source-url-tag tag-pal">PAL</span>
         <code id="url-pal" class="source-url-value"></code>
-        <button class="copy-btn" data-target="url-pal" aria-label="Copy PAL URL">Copy</button>
+        <button class="copy-btn" data-copy-path="pal.sources.json">Copy</button>
       </div>
     </div>
   </header>
@@ -48,45 +54,13 @@
       <h2>How to Use</h2>
       <ol class="how-to">
         <li>Install <a href="https://altstore.io" target="_blank" rel="noopener">AltStore</a> on your iOS device.</li>
-        <li>Tap one of the "Add Source" buttons above, or copy the URL below and paste it into AltStore's Sources tab.</li>
+        <li>Tap one of the buttons above, or copy the URL and paste it into AltStore's Sources tab.</li>
         <li>Browse and install apps directly from AltStore.</li>
       </ol>
       <p class="note">
         <strong>Classic</strong> requires <a href="https://altstore.io" target="_blank" rel="noopener">AltServer</a> running on a Mac or PC.<br>
         <strong>PAL</strong> is available in the EU, Japan, and Brazil on iOS 18.0+.
       </p>
-    </section>
-
-    <section class="source-json-section">
-      <h2>Source JSON</h2>
-
-      <details class="json-details">
-        <summary><code>sources.json</code> — mixed (Classic + PAL)</summary>
-        <div class="json-actions">
-          <a class="btn btn-classic btn-small" href="#">Add to Classic</a>
-          <a class="btn btn-pal btn-small" href="#">Add to PAL</a>
-          <button class="copy-btn" data-copy-content="json-mixed">Copy JSON</button>
-        </div>
-        <pre class="json-block"><code id="json-mixed">Loading...</code></pre>
-      </details>
-
-      <details class="json-details">
-        <summary><code>clasic.sources.json</code> — AltStore Classic</summary>
-        <div class="json-actions">
-          <a class="btn btn-classic btn-small" href="#">Add to Classic</a>
-          <button class="copy-btn" data-copy-content="json-classic">Copy JSON</button>
-        </div>
-        <pre class="json-block"><code id="json-classic">Loading...</code></pre>
-      </details>
-
-      <details class="json-details">
-        <summary><code>pal.sources.json</code> — AltStore PAL</summary>
-        <div class="json-actions">
-          <a class="btn btn-pal btn-small" href="#">Add to PAL</a>
-          <button class="copy-btn" data-copy-content="json-pal">Copy JSON</button>
-        </div>
-        <pre class="json-block"><code id="json-pal">Loading...</code></pre>
-      </details>
     </section>
   </main>
 

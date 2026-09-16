@@ -10,25 +10,19 @@
   function resolveBaseUrl() {
     var loc = window.location;
     var path = loc.pathname;
-    if (path.endsWith("/")) {
-      return loc.origin + path;
-    }
+    if (path.endsWith("/")) return loc.origin + path;
     return loc.origin + path.substring(0, path.lastIndexOf("/") + 1);
   }
 
   function resolveUrl(relative) {
     if (!relative) return "";
-    if (relative.startsWith("http://") || relative.startsWith("https://")) {
-      return relative;
-    }
+    if (relative.startsWith("http://") || relative.startsWith("https://")) return relative;
     return new URL(relative, baseUrl).href;
   }
 
   function copyText(text, btn) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        showCopied(btn);
-      });
+      navigator.clipboard.writeText(text).then(function () { showCopied(btn); });
     } else {
       var ta = document.createElement("textarea");
       ta.value = text;
@@ -52,57 +46,31 @@
     }, 1500);
   }
 
-  function initSourceLinks() {
+  function initLinks() {
+    var allUrl = resolveUrl(SOURCE_JSON);
     var classicUrl = resolveUrl(CLASIC_JSON);
     var palUrl = resolveUrl(PAL_JSON);
 
-    var classicBtn = document.getElementById("btn-classic");
-    var palBtn = document.getElementById("btn-pal");
-    if (classicBtn) classicBtn.href = "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
-    if (palBtn) palBtn.href = "altstore-pal://source?url=" + encodeURIComponent(palUrl);
+    var btnAll = document.getElementById("btn-all");
+    var btnClassic = document.getElementById("btn-classic");
+    var btnPal = document.getElementById("btn-pal");
+    if (btnAll) btnAll.href = "altstore://source?url=" + encodeURIComponent(allUrl);
+    if (btnClassic) btnClassic.href = "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
+    if (btnPal) btnPal.href = "altstore-pal://source?url=" + encodeURIComponent(palUrl);
 
+    var urlAll = document.getElementById("url-all");
     var urlClassic = document.getElementById("url-classic");
     var urlPal = document.getElementById("url-pal");
+    if (urlAll) urlAll.textContent = allUrl;
     if (urlClassic) urlClassic.textContent = classicUrl;
     if (urlPal) urlPal.textContent = palUrl;
 
-    var detailsActions = document.querySelectorAll(".json-details .json-actions");
-    for (var i = 0; i < detailsActions.length; i++) {
-      var links = detailsActions[i].querySelectorAll("a.btn");
-      for (var j = 0; j < links.length; j++) {
-        var link = links[j];
-        if (link.classList.contains("btn-classic")) {
-          link.href = "altstore-classic://source?url=" + encodeURIComponent(classicUrl);
-        } else if (link.classList.contains("btn-pal")) {
-          link.href = "altstore-pal://source?url=" + encodeURIComponent(palUrl);
-        }
-      }
-    }
-
-    var copyBtns = document.querySelectorAll(".copy-btn");
-    for (var k = 0; k < copyBtns.length; k++) {
-      copyBtns[k].addEventListener("click", function () {
-        var targetId = this.getAttribute("data-target");
-        var contentId = this.getAttribute("data-copy-content");
-        var sourceId = targetId || contentId;
-        var el = document.getElementById(sourceId);
-        if (!el) return;
-        copyText(el.textContent, this);
+    var copyBtns = document.querySelectorAll(".copy-btn[data-copy-path]");
+    for (var i = 0; i < copyBtns.length; i++) {
+      copyBtns[i].addEventListener("click", function () {
+        var path = this.getAttribute("data-copy-path");
+        if (path) copyText(path, this);
       });
-    }
-  }
-
-  function formatDate(dateStr) {
-    if (!dateStr) return "";
-    try {
-      var d = new Date(dateStr);
-      return d.toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
-    } catch (_) {
-      return dateStr;
     }
   }
 
@@ -111,12 +79,10 @@
     card.className = "app-card";
 
     var iconSrc = app.iconURL ? resolveUrl(app.iconURL) : "";
-
     var metaParts = [];
     if (app.version) metaParts.push("v" + app.version);
     if (app.developerName) metaParts.push(app.developerName);
     if (distribution) metaParts.push(distribution.toUpperCase());
-
     var desc = app.localizedDescription || app.subtitle || "";
 
     card.innerHTML =
@@ -125,23 +91,17 @@
         : '<img src="" alt="" width="56" height="56" style="display:none">') +
       '<div class="app-info">' +
       "<h3>" + escapeHtml(app.name || "Unknown App") + "</h3>" +
-      (metaParts.length
-        ? '<div class="app-meta">' + escapeHtml(metaParts.join(" · ")) + "</div>"
-        : "") +
-      (desc
-        ? '<div class="app-desc">' + escapeHtml(desc) + "</div>"
-        : "") +
+      (metaParts.length ? '<div class="app-meta">' + escapeHtml(metaParts.join(" · ")) + "</div>" : "") +
+      (desc ? '<div class="app-desc">' + escapeHtml(desc) + "</div>" : "") +
       "</div>" +
       '<div class="app-actions">' +
       (distribution !== "pal"
         ? '<a class="btn btn-small-classic" href="altstore-classic://source?url=' +
-          encodeURIComponent(resolveUrl(CLASIC_JSON)) +
-          '">Classic</a>'
+          encodeURIComponent(resolveUrl(CLASIC_JSON)) + '">Classic</a>'
         : "") +
       (distribution !== "classic"
         ? '<a class="btn btn-small-pal" href="altstore-pal://source?url=' +
-          encodeURIComponent(resolveUrl(PAL_JSON)) +
-          '">PAL</a>'
+          encodeURIComponent(resolveUrl(PAL_JSON)) + '">PAL</a>'
         : "") +
       "</div>";
 
@@ -158,23 +118,14 @@
     }
 
     container.innerHTML = "";
-
     var seen = {};
     for (var i = 0; i < data.apps.length; i++) {
       var app = data.apps[i];
       var key = app.bundleIdentifier || app.name;
       if (seen[key]) continue;
       seen[key] = true;
-
-      var dist = app.distribution || "";
-      container.appendChild(createAppCard(app, dist));
+      container.appendChild(createAppCard(app, app.distribution || ""));
     }
-  }
-
-  function renderJsonBlock(id, data) {
-    var el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = JSON.stringify(data, null, 2);
   }
 
   function escapeHtml(str) {
@@ -187,30 +138,21 @@
     return str.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  function loadJson(url, id) {
-    return fetch(url)
+  function loadApps() {
+    fetch(SOURCE_JSON)
       .then(function (res) {
-        if (!res.ok) throw new Error("Failed to load " + url);
+        if (!res.ok) throw new Error("Failed to load sources");
         return res.json();
       })
-      .then(function (data) {
-        renderJsonBlock(id, data);
-        return data;
-      })
+      .then(renderApps)
       .catch(function () {
-        var el = document.getElementById(id);
-        if (el) el.textContent = "{}";
+        var container = document.getElementById("apps-list");
+        if (container) container.innerHTML = '<p class="empty">Could not load apps. Please try again later.</p>';
       });
   }
 
-  function loadAll() {
-    loadJson(SOURCE_JSON, "json-mixed").then(renderApps);
-    loadJson(CLASIC_JSON, "json-classic");
-    loadJson(PAL_JSON, "json-pal");
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
-    initSourceLinks();
-    loadAll();
+    initLinks();
+    loadApps();
   });
 })();
