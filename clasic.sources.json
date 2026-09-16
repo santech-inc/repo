@@ -21,27 +21,37 @@
       "name": "Simon On Mars",
       "bundleIdentifier": "com.santech.simonOnMars",
       "developerName": "SanTech Inc",
-      "localizedDescription": "",
+      "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
       "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonOnMars.png",
       "tintColor": "#007AFF",
       "versions": [
         {
           "version": "1.0.0",
           "buildVersion": "50",
-          "date": "2026-09-16T18:26:21Z",
+          "date": "2026-09-16T18:49:17Z",
           "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/SimonOnMars-v1.0.0.ipa",
           "size": 72792731,
-          "localizedDescription": "",
+          "localizedDescription": "Initial release of Simon On Mars.",
           "minOSVersion": "13.0"
         }
       ],
+      "localizedDescriptions": {
+        "en-US": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
+        "es-ES": "¡Pon a prueba tu memoria a través del cosmos! Demuestra tus habilidades en este emocionante juego de memoria donde deberás recordar y repetir secuencias en tu viaje por planetas asombrosos.\n\n🧠 Entrenamiento de memoria\nMejora tu memoria y concentración con secuencias desafiantes que aumentan progresivamente de dificultad.\n\n🌍 Explora planetas\nViaja por planetas hermosos y misteriosos, cada uno con desafíos y estilos visuales únicos.\n\n🎮 Múltiples modos\nJuega en modo secuencial o por parejas. Personaliza tu experiencia con ajustes de audio y dificultad."
+      },
       "screenshotURLs": [
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/1.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/2.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/3.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/4.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/5.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/6.jpg"
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/6.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_1.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_2.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_3.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_4.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_5.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com_santech_simonOnMars/com_santech_simonOnMars_6.jpg"
       ]
     }
   ]
