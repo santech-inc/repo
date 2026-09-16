@@ -74,7 +74,7 @@
     }
   }
 
-  function createAppCard(app, distribution) {
+  function createAppCard(app, dists) {
     var card = document.createElement("div");
     card.className = "app-card";
 
@@ -82,7 +82,9 @@
     var metaParts = [];
     if (app.version) metaParts.push("v" + app.version);
     if (app.developerName) metaParts.push(app.developerName);
-    if (distribution) metaParts.push(distribution.toUpperCase());
+    if (dists.classic && dists.pal) metaParts.push("CLASSIC + PAL");
+    else if (dists.classic) metaParts.push("CLASSIC");
+    else if (dists.pal) metaParts.push("PAL");
     var desc = app.localizedDescription || app.subtitle || "";
 
     card.innerHTML =
@@ -95,11 +97,11 @@
       (desc ? '<div class="app-desc">' + escapeHtml(desc) + "</div>" : "") +
       "</div>" +
       '<div class="app-actions">' +
-      (distribution !== "pal"
+      (dists.classic
         ? '<a class="btn btn-small-classic" href="altstore-classic://source?url=' +
           encodeURIComponent(resolveUrl(CLASIC_JSON)) + '">Classic</a>'
         : "") +
-      (distribution !== "classic"
+      (dists.pal
         ? '<a class="btn btn-small-pal" href="altstore-pal://source?url=' +
           encodeURIComponent(resolveUrl(PAL_JSON)) + '">PAL</a>'
         : "") +
@@ -118,13 +120,22 @@
     }
 
     container.innerHTML = "";
-    var seen = {};
+    var apps = {};
     for (var i = 0; i < data.apps.length; i++) {
       var app = data.apps[i];
       var key = app.bundleIdentifier || app.name;
-      if (seen[key]) continue;
-      seen[key] = true;
-      container.appendChild(createAppCard(app, app.distribution || ""));
+      if (!apps[key]) {
+        apps[key] = { app: app, dists: { classic: false, pal: false } };
+      }
+      var dist = app.distribution || "";
+      if (dist === "classic") apps[key].dists.classic = true;
+      else if (dist === "pal") apps[key].dists.pal = true;
+    }
+
+    var keys = Object.keys(apps);
+    for (var j = 0; j < keys.length; j++) {
+      var entry = apps[keys[j]];
+      container.appendChild(createAppCard(entry.app, entry.dists));
     }
   }
 
