@@ -11,7 +11,9 @@
   "website": "https://github.com/santech-inc/repo",
   "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/source_icon.png",
   "tintColor": "#007AFF",
-  "featuredApps": [],
+  "featuredApps": [
+    "com.santechinc.exampleapp"
+  ],
   "apps": [
     {
       "name": "ExampleApp",
