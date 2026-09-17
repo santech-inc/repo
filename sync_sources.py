@@ -333,7 +333,25 @@ def make_classic_source_entry() -> dict:
     }
 
 
-def make_classic_app_entry(entry: dict, descriptions: dict[str, str], metadata_dir: Path) -> dict:
+def existing_version_date(existing_app: dict | None, entry: dict, fallback: str) -> str:
+    """Keep a version date stable when the version and build are unchanged."""
+    if existing_app:
+        for version in existing_app.get("versions", []):
+            if (
+                version.get("version") == entry["version"]
+                and version.get("buildVersion", "1") == entry.get("buildVersion", "1")
+                and version.get("date")
+            ):
+                return version["date"]
+    return fallback
+
+
+def make_classic_app_entry(
+    entry: dict,
+    descriptions: dict[str, str],
+    metadata_dir: Path,
+    existing_app: dict | None = None,
+) -> dict:
     """Create a full app entry for clasic.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
@@ -359,7 +377,11 @@ def make_classic_app_entry(entry: dict, descriptions: dict[str, str], metadata_d
             {
                 "version": entry["version"],
                 "buildVersion": entry.get("buildVersion", "1"),
-                "date": datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
+                "date": existing_version_date(
+                    existing_app,
+                    entry,
+                    datetime.now(timezone.utc).strftime(MANIFEST_DATE_FORMAT),
+                ),
                 "downloadURL": f"{RAW_BASE}/clasic/{entry['ipa_path'].name}",
                 "size": entry["size"],
                 "localizedDescription": changelog,
@@ -396,7 +418,12 @@ def make_pal_source_entry() -> dict:
     }
 
 
-def make_pal_app_entry(entry: dict, descriptions: dict[str, str], metadata_dir: Path) -> dict:
+def make_pal_app_entry(
+    entry: dict,
+    descriptions: dict[str, str],
+    metadata_dir: Path,
+    existing_app: dict | None = None,
+) -> dict:
     """Create a full app entry for pal.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
@@ -429,7 +456,11 @@ def make_pal_app_entry(entry: dict, descriptions: dict[str, str], metadata_dir: 
             {
                 "version": entry["version"],
                 "buildVersion": entry.get("buildVersion", "1"),
-                "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "date": existing_version_date(
+                    existing_app,
+                    entry,
+                    datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                ),
                 "downloadURL": f"{RAW_BASE}/pal/{entry['adp_dir'].name}/manifest.json",
                 "size": entry["size"],
                 "localizedDescription": changelog,
@@ -559,8 +590,90 @@ def export_metadata(source_path: Path, metadata_dir: Path, app_dirs: dict[str, P
                 )
 
 
+def render_published_apps(classic_data: dict, pal_data: dict) -> str:
+    """Render the generated Published Apps table from source JSON data."""
+    apps = {}
+    for distribution, source in (("classic", classic_data), ("pal", pal_data)):
+        for app in source.get("apps", []):
+            bundle_id = app.get("bundleIdentifier")
+            if not bundle_id:
+                continue
+            entry = apps.setdefault(bundle_id, {"classic": None, "pal": None})
+            entry[distribution] = app
+
+    rows = []
+    for bundle_id, distributions in apps.items():
+        app = distributions["classic"] or distributions["pal"]
+        versions = app.get("versions", [])
+        version = versions[-1].get("version", "—") if versions else "—"
+        rows.append(
+            (
+                app.get("name", bundle_id),
+                bundle_id,
+                version,
+                "Yes" if distributions["classic"] else "No",
+                "Yes" if distributions["pal"] else "No",
+            )
+        )
+
+    rows.sort(key=lambda row: (row[0].casefold(), row[1].casefold()))
+    if not rows:
+        return "| *No apps published yet* | — | — | — | — |\n"
+
+    return "".join(
+        f"| {name} | `{bundle_id}` | {version} | {classic} | {pal} |\n"
+        for name, bundle_id, version, classic, pal in rows
+    )
+
+
+def _render_readme_catalog(readme: str, classic_data: dict, pal_data: dict) -> str:
+    """Return README with only the generated catalog block replaced."""
+    begin = "<!-- BEGIN GENERATED: published-apps -->"
+    end = "<!-- END GENERATED: published-apps -->"
+    begin_positions = [index for index in range(len(readme)) if readme.startswith(begin, index)]
+    end_positions = [index for index in range(len(readme)) if readme.startswith(end, index)]
+    if len(begin_positions) != 1 or len(end_positions) != 1 or end_positions[0] < begin_positions[0]:
+        raise RuntimeError("README must contain exactly one valid published-apps marker pair")
+
+    content_start = begin_positions[0] + len(begin)
+    content_end = end_positions[0]
+    if readme[content_start:content_end].count("<!-- BEGIN GENERATED:") or readme[content_start:content_end].count("<!-- END GENERATED:"):
+        raise RuntimeError("README published-apps markers must not be nested")
+
+    generated = "\n" + render_published_apps(classic_data, pal_data).rstrip("\n") + "\n"
+    return readme[:content_start] + generated + readme[content_end:]
+
+
+def update_readme_catalog(
+    readme_path: Path,
+    classic_data: dict,
+    pal_data: dict,
+    dry_run: bool = False,
+) -> None:
+    """Replace only the generated Published Apps block in README.md."""
+    original = readme_path.read_text(encoding="utf-8")
+    updated = _render_readme_catalog(original, classic_data, pal_data)
+    if dry_run:
+        print(f"\n--- {readme_path.name} (dry run) ---")
+        print(updated)
+    elif updated != original:
+        readme_path.write_text(updated, encoding="utf-8")
+
+
 def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
     descriptions = collect_app_descriptions()
+    existing_clasic = _load_json(CLASIC_SOURCES_JSON)
+    existing_pal = _load_json(PAL_SOURCES_JSON)
+    existing_classic_apps = {
+        app.get("bundleIdentifier"): app
+        for app in existing_clasic.get("apps", [])
+        if app.get("bundleIdentifier")
+    }
+    existing_pal_apps = {
+        app.get("bundleIdentifier"): app
+        for app in existing_pal.get("apps", [])
+        if app.get("bundleIdentifier")
+    }
     with tempfile.TemporaryDirectory(prefix="altstore-metadata-") as temp_dir:
         metadata_root = Path(temp_dir)
         classic_metadata_dir = metadata_root / "clasic"
@@ -576,11 +689,21 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         export_metadata(PAL_SOURCES_JSON, metadata_root / "pal", pal_app_dirs)
 
         classic_apps = [
-            make_classic_app_entry(app, descriptions, classic_metadata_dir)
+            make_classic_app_entry(
+                app,
+                descriptions,
+                classic_metadata_dir,
+                existing_classic_apps.get(app["bundleIdentifier"]),
+            )
             for app in ipa_apps
         ]
         pal_apps = [
-            make_pal_app_entry(app, descriptions, pal_app_dirs[app["bundleIdentifier"]])
+            make_pal_app_entry(
+                app,
+                descriptions,
+                pal_app_dirs[app["bundleIdentifier"]],
+                existing_pal_apps.get(app["bundleIdentifier"]),
+            )
             for app in adp_apps
         ]
 
@@ -600,7 +723,6 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         current_pal_ids = {app["bundleIdentifier"] for app in pal_apps}
 
         # clasic.sources.json
-        existing_clasic = _load_json(CLASIC_SOURCES_JSON)
         clasic_data = make_classic_source_entry()
         clasic_data["apps"] = keep_current(
             merge(existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"),
@@ -612,7 +734,6 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
         ]
 
         # pal.sources.json
-        existing_pal = _load_json(PAL_SOURCES_JSON)
         pal_data = make_pal_source_entry()
         pal_data["apps"] = keep_current(
             merge(existing_pal.get("apps", []), pal_apps, "bundleIdentifier"),
@@ -627,6 +748,12 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
             (CLASIC_SOURCES_JSON, clasic_data),
             (PAL_SOURCES_JSON, pal_data),
         ]
+        readme_path = ROOT / "README.md"
+        readme_content = _render_readme_catalog(
+            readme_path.read_text(encoding="utf-8"),
+            clasic_data,
+            pal_data,
+        )
 
         for path, data in files:
             content = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
@@ -636,6 +763,13 @@ def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
             else:
                 path.write_text(content, encoding="utf-8")
                 print(f"  Written: {path.name}")
+
+        if dry_run:
+            print(f"\n--- {readme_path.name} (dry run) ---")
+            print(readme_content)
+        elif readme_content != readme_path.read_text(encoding="utf-8"):
+            readme_path.write_text(readme_content, encoding="utf-8")
+            print(f"  Written: {readme_path.name}")
 
 def _load_json(path: Path) -> dict:
     if path.exists():

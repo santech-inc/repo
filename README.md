@@ -148,8 +148,10 @@ https://santech-inc.github.io/repo/pal.sources.json
 
 | App | Bundle ID | Version | Classic | PAL |
 |-----|-----------|---------|---------|-----|
+<!-- BEGIN GENERATED: published-apps -->
 | Business Manager | `com.santech.businessManager` | 1.0.0 | Yes | No |
 | Simon On Mars | `com.santech.simonOnMars` | 1.0.0 | Yes | No |
+<!-- END GENERATED: published-apps -->
 
 > This table will be updated as new apps are added to the source.
 
@@ -169,8 +171,9 @@ By adding this source to AltStore, you acknowledge that you understand and accep
    ```bash
    python3 sync_sources.py
    ```
-   This scans both directories, extracts metadata and icons from the binaries, and adds screenshots to each app entry in the source JSONs automatically.
+   This scans both directories, extracts metadata and icons from the binaries, adds screenshots to each app entry in the source JSONs, and updates the `Published Apps` table in this README automatically.
    App descriptions and changelogs are preserved from the existing source files before stale apps are removed, so they are restored when an app is regenerated. No metadata TXT files are created in the repository.
+   The script does not rewrite the JSON examples, setup guide, disclaimer, or other documentation outside the generated table.
 
    Use `--dry-run` to preview changes without writing files.
 
