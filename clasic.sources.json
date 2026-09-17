@@ -14,7 +14,8 @@
   "tintColor": "#007AFF",
   "featuredApps": [
     "com.santech.simonOnMars",
-    "com.santech.businessManager"
+    "com.santech.businessManager",
+    "com.santech.AppFolderWidget"
   ],
   "news": [],
   "apps": [
@@ -69,6 +70,32 @@
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.businessManager/2.png",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.businessManager/3.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.businessManager/4.jpg"
+      ]
+    },
+    {
+      "name": "AppFolderWidget",
+      "bundleIdentifier": "com.santech.AppFolderWidget",
+      "developerName": "SanTech Inc",
+      "localizedDescription": "Replace this placeholder with the app's store description.",
+      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_AppFolderWidget.png",
+      "tintColor": "#007AFF",
+      "versions": [
+        {
+          "version": "1.0",
+          "buildVersion": "1",
+          "date": "2026-09-17T20:53:11Z",
+          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/AppFolderWidget.ipa",
+          "size": 10763586,
+          "localizedDescription": "Describe what changed in this release.\n\nKeep this text concise because Google Play limits release notes to 500 characters.",
+          "minOSVersion": "17.0"
+        }
+      ],
+      "localizedDescriptions": {
+        "en-US": "Replace this placeholder with the app's store description."
+      },
+      "screenshotURLs": [
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.AppFolderWidget/0.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.AppFolderWidget/1.jpg"
       ]
     }
   ]
