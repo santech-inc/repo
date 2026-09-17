@@ -136,6 +136,12 @@
     if (!container) return;
 
     var keys = Object.keys(apps);
+    var summary = document.getElementById("apps-summary");
+    if (summary) {
+      summary.textContent = keys.length === 1
+        ? "1 app available from SanTech Inc."
+        : keys.length + " apps available from SanTech Inc.";
+    }
     if (keys.length === 0) {
       container.innerHTML = '<p class="empty">No apps available yet.</p>';
       return;
