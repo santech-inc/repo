@@ -148,7 +148,8 @@ https://santech-inc.github.io/repo/pal.sources.json
 
 | App | Bundle ID | Version | Classic | PAL |
 |-----|-----------|---------|---------|-----|
-| *No apps published yet* | — | — | — | — |
+| Business Manager | `com.santech.businessManager` | 1.0.0 | Yes | No |
+| Simon On Mars | `com.santech.simonOnMars` | 1.0.0 | Yes | No |
 
 > This table will be updated as new apps are added to the source.
 
@@ -163,20 +164,13 @@ By adding this source to AltStore, you acknowledge that you understand and accep
 1. Drop `.ipa` files into `clasic/`.
 2. Drop ADP folders (containing `manifest.json`) into `pal/`.
 3. Place app screenshots in `screenshots/<bundle-id>/` (for example `screenshots/com.santech.simonInSpaceGame/1.png`).
-4. Place optional app metadata files next to the IPA or inside the PAL app folder:
-   ```text
-   clasic/<bundle_id_slug>.changelog.txt
-   clasic/<bundle_id_slug>.description.<locale>.txt
-   pal/<app>/<bundle_id_slug>.changelog.txt
-   pal/<app>/<bundle_id_slug>.description.<locale>.txt
-   ```
-   The `en-US` description is preferred for the app-level `localizedDescription`; otherwise, the first available locale is used. All locale files are emitted in `localizedDescriptions`.
+4. Keep app descriptions and changelogs in the source JSON files. When `sync_sources.py` runs, it extracts those fields into temporary TXT files, uses them while rebuilding the JSON files, and removes the temporary files automatically.
 5. Run the sync script:
    ```bash
    python3 sync_sources.py
    ```
    This scans both directories, extracts metadata and icons from the binaries, and adds screenshots to each app entry in the source JSONs automatically.
-   App descriptions are preserved in memory from the existing source files before stale apps are removed, so they are restored when an app is regenerated. No auxiliary backup file is created.
+   App descriptions and changelogs are preserved from the existing source files before stale apps are removed, so they are restored when an app is regenerated. No metadata TXT files are created in the repository.
 
    Use `--dry-run` to preview changes without writing files.
 

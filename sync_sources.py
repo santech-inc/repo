@@ -236,7 +236,7 @@ def default_icon_url(bundle_id: str) -> str:
 
 
 def find_changelog(base_dir: Path, bundle_id: str) -> str:
-    """Read the per-version changelog file, if present, next to the ipa/adp."""
+    """Read the temporary per-version changelog for an app."""
     slug = bundle_id.replace(".", "_")
     path = base_dir / f"{slug}.changelog.txt"
     if path.exists():
@@ -245,7 +245,7 @@ def find_changelog(base_dir: Path, bundle_id: str) -> str:
 
 
 def find_descriptions(base_dir: Path, bundle_id: str) -> dict[str, str]:
-    """Read all per-locale store description files, if present, next to the ipa/adp."""
+    """Read all temporary per-locale store descriptions for an app."""
     slug = bundle_id.replace(".", "_")
     descriptions = {}
     for path in sorted(base_dir.glob(f"{slug}.description.*.txt")):
@@ -333,20 +333,20 @@ def make_classic_source_entry() -> dict:
     }
 
 
-def make_classic_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
+def make_classic_app_entry(entry: dict, descriptions: dict[str, str], metadata_dir: Path) -> dict:
     """Create a full app entry for clasic.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
         icon = default_icon_url(entry["bundleIdentifier"])
 
     screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
-    localized_descriptions = find_descriptions(CLASIC_DIR, entry["bundleIdentifier"])
+    localized_descriptions = find_descriptions(metadata_dir, entry["bundleIdentifier"])
     primary_description = (
         localized_descriptions.get("en-US")
         or next(iter(localized_descriptions.values()), "")
         or descriptions.get(entry["bundleIdentifier"], "")
     )
-    changelog = find_changelog(CLASIC_DIR, entry["bundleIdentifier"])
+    changelog = find_changelog(metadata_dir, entry["bundleIdentifier"])
 
     app = {
         "name": entry["name"],
@@ -396,14 +396,13 @@ def make_pal_source_entry() -> dict:
     }
 
 
-def make_pal_app_entry(entry: dict, descriptions: dict[str, str]) -> dict:
+def make_pal_app_entry(entry: dict, descriptions: dict[str, str], metadata_dir: Path) -> dict:
     """Create a full app entry for pal.sources.json."""
     icon = find_existing_icon(entry["bundleIdentifier"])
     if not icon:
         icon = default_icon_url(entry["bundleIdentifier"])
 
     screenshot_urls = collect_screenshot_urls(entry["bundleIdentifier"])
-    metadata_dir = PAL_DIR / entry["adp_dir"].name
     localized_descriptions = find_descriptions(metadata_dir, entry["bundleIdentifier"])
     primary_description = (
         localized_descriptions.get("en-US")
@@ -524,63 +523,119 @@ def collect_app_descriptions() -> dict[str, str]:
     return descriptions
 
 
+def export_metadata(source_path: Path, metadata_dir: Path, app_dirs: dict[str, Path]) -> None:
+    """Materialize JSON metadata as temporary TXT files for the builders."""
+    source = _load_json(source_path)
+    for app in source.get("apps", []):
+        bundle_id = app.get("bundleIdentifier")
+        target_dir = app_dirs.get(bundle_id)
+        if not bundle_id or target_dir is None:
+            continue
+
+        target_dir.mkdir(parents=True, exist_ok=True)
+        slug = bundle_id.replace(".", "_")
+        localized_descriptions = app.get("localizedDescriptions", {})
+        if not isinstance(localized_descriptions, dict):
+            localized_descriptions = {}
+        if not localized_descriptions:
+            primary = app.get("localizedDescription", "")
+            if isinstance(primary, str) and primary.strip():
+                localized_descriptions = {"en-US": primary}
+
+        for locale, description in localized_descriptions.items():
+            if isinstance(locale, str) and isinstance(description, str) and description.strip():
+                (target_dir / f"{slug}.description.{locale}.txt").write_text(
+                    description.strip() + "\n",
+                    encoding="utf-8",
+                )
+
+        versions = app.get("versions", [])
+        if versions and isinstance(versions[-1], dict):
+            changelog = versions[-1].get("localizedDescription", "")
+            if isinstance(changelog, str) and changelog.strip():
+                (target_dir / f"{slug}.changelog.txt").write_text(
+                    changelog.strip() + "\n",
+                    encoding="utf-8",
+                )
+
+
 def write_sources(ipa_apps: list[dict], adp_apps: list[dict], dry_run: bool):
     descriptions = collect_app_descriptions()
-    classic_apps = [make_classic_app_entry(app, descriptions) for app in ipa_apps]
-    pal_apps = [make_pal_app_entry(app, descriptions) for app in adp_apps]
+    with tempfile.TemporaryDirectory(prefix="altstore-metadata-") as temp_dir:
+        metadata_root = Path(temp_dir)
+        classic_metadata_dir = metadata_root / "clasic"
+        classic_app_dirs = {
+            app["bundleIdentifier"]: classic_metadata_dir
+            for app in ipa_apps
+        }
+        pal_app_dirs = {
+            app["bundleIdentifier"]: metadata_root / "pal" / app["adp_dir"].name
+            for app in adp_apps
+        }
+        export_metadata(CLASIC_SOURCES_JSON, classic_metadata_dir, classic_app_dirs)
+        export_metadata(PAL_SOURCES_JSON, metadata_root / "pal", pal_app_dirs)
 
-    def merge(existing: list, new_entries: list, key: str) -> list:
-        by_key = {}
-        for item in existing:
-            if key in item:
+        classic_apps = [
+            make_classic_app_entry(app, descriptions, classic_metadata_dir)
+            for app in ipa_apps
+        ]
+        pal_apps = [
+            make_pal_app_entry(app, descriptions, pal_app_dirs[app["bundleIdentifier"]])
+            for app in adp_apps
+        ]
+
+        def merge(existing: list, new_entries: list, key: str) -> list:
+            by_key = {}
+            for item in existing:
+                if key in item:
+                    by_key[item[key]] = item
+            for item in new_entries:
                 by_key[item[key]] = item
-        for item in new_entries:
-            by_key[item[key]] = item
-        return list(by_key.values())
+            return list(by_key.values())
 
-    def keep_current(existing: list, current_ids: set[str], key: str) -> list:
-        return [item for item in existing if item.get(key) in current_ids]
+        def keep_current(existing: list, current_ids: set[str], key: str) -> list:
+            return [item for item in existing if item.get(key) in current_ids]
 
-    current_classic_ids = {app["bundleIdentifier"] for app in classic_apps}
-    current_pal_ids = {app["bundleIdentifier"] for app in pal_apps}
+        current_classic_ids = {app["bundleIdentifier"] for app in classic_apps}
+        current_pal_ids = {app["bundleIdentifier"] for app in pal_apps}
 
-    # clasic.sources.json
-    existing_clasic = _load_json(CLASIC_SOURCES_JSON)
-    clasic_data = make_classic_source_entry()
-    clasic_data["apps"] = keep_current(
-        merge(existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"),
-        current_classic_ids,
-        "bundleIdentifier",
-    )
-    clasic_data["featuredApps"] = [
-        a["bundleIdentifier"] for a in clasic_data["apps"] if a["bundleIdentifier"] in current_classic_ids
-    ]
+        # clasic.sources.json
+        existing_clasic = _load_json(CLASIC_SOURCES_JSON)
+        clasic_data = make_classic_source_entry()
+        clasic_data["apps"] = keep_current(
+            merge(existing_clasic.get("apps", []), classic_apps, "bundleIdentifier"),
+            current_classic_ids,
+            "bundleIdentifier",
+        )
+        clasic_data["featuredApps"] = [
+            a["bundleIdentifier"] for a in clasic_data["apps"] if a["bundleIdentifier"] in current_classic_ids
+        ]
 
-    # pal.sources.json
-    existing_pal = _load_json(PAL_SOURCES_JSON)
-    pal_data = make_pal_source_entry()
-    pal_data["apps"] = keep_current(
-        merge(existing_pal.get("apps", []), pal_apps, "bundleIdentifier"),
-        current_pal_ids,
-        "bundleIdentifier",
-    )
-    pal_data["featuredApps"] = [
-        a["bundleIdentifier"] for a in pal_data["apps"] if a["bundleIdentifier"] in current_pal_ids
-    ]
+        # pal.sources.json
+        existing_pal = _load_json(PAL_SOURCES_JSON)
+        pal_data = make_pal_source_entry()
+        pal_data["apps"] = keep_current(
+            merge(existing_pal.get("apps", []), pal_apps, "bundleIdentifier"),
+            current_pal_ids,
+            "bundleIdentifier",
+        )
+        pal_data["featuredApps"] = [
+            a["bundleIdentifier"] for a in pal_data["apps"] if a["bundleIdentifier"] in current_pal_ids
+        ]
 
-    files = [
-        (CLASIC_SOURCES_JSON, clasic_data),
-        (PAL_SOURCES_JSON, pal_data),
-    ]
+        files = [
+            (CLASIC_SOURCES_JSON, clasic_data),
+            (PAL_SOURCES_JSON, pal_data),
+        ]
 
-    for path, data in files:
-        content = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
-        if dry_run:
-            print(f"\n--- {path.name} (dry run) ---")
-            print(content[:800] + ("..." if len(content) > 800 else ""))
-        else:
-            path.write_text(content, encoding="utf-8")
-            print(f"  Written: {path.name}")
+        for path, data in files:
+            content = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+            if dry_run:
+                print(f"\n--- {path.name} (dry run) ---")
+                print(content[:800] + ("..." if len(content) > 800 else ""))
+            else:
+                path.write_text(content, encoding="utf-8")
+                print(f"  Written: {path.name}")
 
 def _load_json(path: Path) -> dict:
     if path.exists():
