@@ -146,9 +146,9 @@ https://santech-inc.github.io/repo/pal.sources.json
 
 ## Published Apps
 
+<!-- BEGIN GENERATED: published-apps -->
 | App | Bundle ID | Version | Classic | PAL |
 |-----|-----------|---------|---------|-----|
-<!-- BEGIN GENERATED: published-apps -->
 | Business Manager | `com.santech.businessManager` | 1.0.0 | Yes | No |
 | Simon On Mars | `com.santech.simonOnMars` | 1.0.0 | Yes | No |
 <!-- END GENERATED: published-apps -->

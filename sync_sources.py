@@ -592,6 +592,10 @@ def export_metadata(source_path: Path, metadata_dir: Path, app_dirs: dict[str, P
 
 def render_published_apps(classic_data: dict, pal_data: dict) -> str:
     """Render the generated Published Apps table from source JSON data."""
+    header = (
+        "| App | Bundle ID | Version | Classic | PAL |\n"
+        "|-----|-----------|---------|---------|-----|\n"
+    )
     apps = {}
     for distribution, source in (("classic", classic_data), ("pal", pal_data)):
         for app in source.get("apps", []):
@@ -618,9 +622,9 @@ def render_published_apps(classic_data: dict, pal_data: dict) -> str:
 
     rows.sort(key=lambda row: (row[0].casefold(), row[1].casefold()))
     if not rows:
-        return "| *No apps published yet* | — | — | — | — |\n"
+        return header + "| *No apps published yet* | — | — | — | — |\n"
 
-    return "".join(
+    return header + "".join(
         f"| {name} | `{bundle_id}` | {version} | {classic} | {pal} |\n"
         for name, bundle_id, version, classic, pal in rows
     )
