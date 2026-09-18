@@ -72,6 +72,127 @@
     }
   }
 
+  function formatSize(bytes) {
+    if (!bytes) return "";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / 1048576).toFixed(1) + " MB";
+  }
+
+  function formatDate(dateStr) {
+    if (!dateStr) return "";
+    var d = new Date(dateStr);
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  }
+
+  function buildDetailPanel(app) {
+    var panel = document.createElement("div");
+    panel.className = "app-detail-panel";
+
+    var html = "";
+
+    // Screenshots
+    var screenshots = app.screenshotURLs || [];
+    if (screenshots.length > 0) {
+      html += '<div class="detail-screenshots">';
+      for (var s = 0; s < screenshots.length; s++) {
+        var src = resolveUrl(screenshots[s]);
+        html += '<img src="' + escapeAttr(src) + '" alt="Screenshot ' + (s + 1) + '" loading="lazy">';
+      }
+      html += "</div>";
+    }
+
+    // Description
+    var desc = app.localizedDescription || "";
+    if (desc) {
+      html += '<div class="detail-description">' + escapeHtml(desc).replace(/\n/g, "<br>") + "</div>";
+    }
+
+    // Version info
+    var versions = app.versions || [];
+    if (versions.length > 0) {
+      var latest = versions[0];
+      html += '<div class="detail-version-info">';
+      html += '<div class="detail-info-grid">';
+      html += '<div class="detail-info-item"><span class="detail-info-label">Version</span><span class="detail-info-value">' + escapeHtml(latest.version || "") + "</span></div>";
+      html += '<div class="detail-info-item"><span class="detail-info-label">Build</span><span class="detail-info-value">' + escapeHtml(latest.buildVersion || "") + "</span></div>";
+      if (latest.size) {
+        html += '<div class="detail-info-item"><span class="detail-info-label">Size</span><span class="detail-info-value">' + formatSize(latest.size) + "</span></div>";
+      }
+      if (latest.minOSVersion) {
+        html += '<div class="detail-info-item"><span class="detail-info-label">Requires</span><span class="detail-info-value">iOS ' + escapeHtml(latest.minOSVersion) + "</span></div>";
+      }
+      if (latest.date) {
+        html += '<div class="detail-info-item"><span class="detail-info-label">Released</span><span class="detail-info-value">' + formatDate(latest.date) + "</span></div>";
+      }
+      html += "</div>";
+      html += "</div>";
+    }
+
+    // Changelog
+    if (versions.length > 0) {
+      html += '<div class="detail-changelog">';
+      html += '<h4 class="detail-changelog-title">What\'s New</h4>';
+      html += '<div class="detail-changelog-list">';
+      for (var v = 0; v < versions.length; v++) {
+        var ver = versions[v];
+        var notes = ver.localizedDescription || "";
+        html += '<div class="detail-changelog-entry">';
+        html += '<div class="detail-changelog-header">';
+        html += '<span class="detail-changelog-version">v' + escapeHtml(ver.version || "") + "</span>";
+        if (ver.date) {
+          html += '<span class="detail-changelog-date">' + formatDate(ver.date) + "</span>";
+        }
+        html += "</div>";
+        if (notes) {
+          html += '<div class="detail-changelog-notes">' + escapeHtml(notes).replace(/\n/g, "<br>") + "</div>";
+        }
+        html += "</div>";
+      }
+      html += "</div>";
+      html += "</div>";
+    }
+
+    panel.innerHTML = html;
+    return panel;
+  }
+
+  function toggleAppDetail(card, app) {
+    var existing = card.querySelector(".app-detail-panel");
+    if (existing) {
+      collapseCard(card);
+      return;
+    }
+
+    // Collapse any other expanded card
+    var allCards = document.querySelectorAll(".app-card.expanded");
+    for (var i = 0; i < allCards.length; i++) {
+      collapseCard(allCards[i]);
+    }
+
+    card.classList.add("expanded");
+    var panel = buildDetailPanel(app);
+    card.appendChild(panel);
+
+    // Force reflow then animate
+    panel.offsetHeight;
+    panel.classList.add("open");
+  }
+
+  function collapseCard(card) {
+    var panel = card.querySelector(".app-detail-panel");
+    if (panel) {
+      panel.classList.remove("open");
+      card.classList.remove("expanded");
+      var p = panel;
+      setTimeout(function () {
+        if (p.parentNode) p.parentNode.removeChild(p);
+      }, 300);
+    } else {
+      card.classList.remove("expanded");
+    }
+  }
+
   function createAppCard(app, dists) {
     var card = document.createElement("div");
     card.className = "app-card";
@@ -101,6 +222,12 @@
           encodeURIComponent(resolveUrl(PAL_JSON)) + '">PAL</a>'
         : "") +
       "</div>";
+
+    // Click handler for expanding details (not on action buttons)
+    card.addEventListener("click", function (e) {
+      if (e.target.closest(".app-actions")) return;
+      toggleAppDetail(card, app);
+    });
 
     return card;
   }
