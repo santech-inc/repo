@@ -271,6 +271,10 @@ h2 {
   background: #30b050;
 }
 
+.btn-download {
+  background: #e8611a;
+}
+
 /* App detail panel (expandable) */
 .app-card {
   cursor: pointer;

@@ -221,6 +221,9 @@
         ? '<a class="btn btn-small-pal" href="altstore-pal://source?url=' +
           encodeURIComponent(resolveUrl(PAL_JSON)) + '">PAL</a>'
         : "") +
+      (app.versions && app.versions[0] && app.versions[0].downloadURL
+        ? '<a class="btn btn-download" href="' + resolveUrl(app.versions[0].downloadURL) + '" download>Download IPA</a>'
+        : "") +
       "</div>";
 
     // Click handler for expanding details (not on action buttons)
