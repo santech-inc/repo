@@ -85,7 +85,7 @@
           "buildVersion": "1",
           "date": "2026-09-17T20:53:11Z",
           "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/AppFolderWidget.ipa",
-          "size": 10763582,
+          "size": 10763596,
           "localizedDescription": "Describe what changed in this release.\n\nKeep this text concise because Google Play limits release notes to 500 characters.",
           "minOSVersion": "17.0"
         }
