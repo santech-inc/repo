@@ -28,12 +28,12 @@
       "tintColor": "#007AFF",
       "versions": [
         {
-          "version": "1.0.0",
-          "buildVersion": "50",
-          "date": "2026-09-17T07:22:26Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-v1.0.0/SimonOnMars-v1.0.0.ipa",
+          "version": "1.0.1",
+          "buildVersion": "51",
+          "date": "2026-09-19T18:48:53Z",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-v1.0.1/SimonOnMars-v1.0.1.ipa",
           "size": 72792731,
-          "localizedDescription": "Initial release of Simon On Mars.",
+          "localizedDescription": "General stability improvements and behind-the-scenes updates.",
           "minOSVersion": "13.0"
         }
       ],
@@ -42,12 +42,12 @@
         "es-ES": "¡Pon a prueba tu memoria a través del cosmos! Demuestra tus habilidades en este emocionante juego de memoria donde deberás recordar y repetir secuencias en tu viaje por planetas asombrosos.\n\n🧠 Entrenamiento de memoria\nMejora tu memoria y concentración con secuencias desafiantes que aumentan progresivamente de dificultad.\n\n🌍 Explora planetas\nViaja por planetas hermosos y misteriosos, cada uno con desafíos y estilos visuales únicos.\n\n🎮 Múltiples modos\nJuega en modo secuencial o por parejas. Personaliza tu experiencia con ajustes de audio y dificultad."
       },
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/1.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/2.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/3.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/4.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/5.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/6.jpg"
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/1.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/2.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/3.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/4.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/5.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/6.jpg"
       ]
     },
     {

@@ -151,7 +151,7 @@ https://santech-inc.github.io/repo/pal.sources.json
 |-----|-----------|---------|---------|-----|
 | AppFolderWidget | `com.santech.AppFolderWidget` | 1.0 | Yes | No |
 | Business Manager | `com.santech.businessManager` | 1.0.0 | Yes | No |
-| Simon On Mars | `com.santech.simonOnMars` | 1.0.0 | Yes | No |
+| Simon On Mars | `com.santech.simonOnMars` | 1.0.1 | Yes | No |
 <!-- END GENERATED: published-apps -->
 
 > This table will be updated as new apps are added to the source.
