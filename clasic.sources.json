@@ -31,7 +31,7 @@
           "version": "1.0.0",
           "buildVersion": "50",
           "date": "2026-09-17T07:22:26Z",
-          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/SimonOnMars-v1.0.0.ipa",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-v1.0.0/SimonOnMars-v1.0.0.ipa",
           "size": 72792731,
           "localizedDescription": "Initial release of Simon On Mars.",
           "minOSVersion": "13.0"
@@ -62,7 +62,7 @@
           "version": "1.0.0",
           "buildVersion": "7",
           "date": "2026-09-17T07:22:26Z",
-          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/BusinessManager-v1.0.0.ipa",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-businessManager-v1.0.0/BusinessManager-v1.0.0.ipa",
           "size": 13720943,
           "localizedDescription": "Initial Business Manager iOS release.",
           "minOSVersion": "15.0"
@@ -92,7 +92,7 @@
           "version": "1.0",
           "buildVersion": "1",
           "date": "2026-09-18T08:15:37Z",
-          "downloadURL": "https://raw.githubusercontent.com/santech-inc/repo/main/clasic/AppFolderWidget.ipa",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-AppFolderWidget-v1.0/AppFolderWidget.ipa",
           "size": 10763598,
           "localizedDescription": "Describe what changed in this release.\n\nKeep this text concise because Google Play limits release notes to 500 characters.",
           "minOSVersion": "17.0"
