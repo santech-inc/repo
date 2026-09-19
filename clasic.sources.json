@@ -15,8 +15,7 @@
   "featuredApps": [
     "com.santech.simonOnMars",
     "com.santech.businessManager",
-    "com.santech.AppFolderWidget",
-    "com.santech.simon_in_space"
+    "com.santech.AppFolderWidget"
   ],
   "news": [],
   "apps": [
@@ -106,37 +105,6 @@
       "localizedDescriptions": {
         "en-US": "Replace this placeholder with the app's store description."
       }
-    },
-    {
-      "name": "Simon On Mars",
-      "bundleIdentifier": "com.santech.simon_in_space",
-      "developerName": "SanTech Inc",
-      "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simon_in_space.png",
-      "tintColor": "#007AFF",
-      "versions": [
-        {
-          "version": "1.0.0",
-          "buildVersion": "50",
-          "date": "2026-09-19T14:33:38Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simon_in_space-v1.0.0/SimonOnMars-v1.0.0.ipa",
-          "size": 72792731,
-          "localizedDescription": "Initial release of Simon On Mars.",
-          "minOSVersion": "13.0"
-        }
-      ],
-      "localizedDescriptions": {
-        "en-US": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-        "es-ES": "¡Pon a prueba tu memoria a través del cosmos! Demuestra tus habilidades en este emocionante juego de memoria donde deberás recordar y repetir secuencias en tu viaje por planetas asombrosos.\n\n🧠 Entrenamiento de memoria\nMejora tu memoria y concentración con secuencias desafiantes que aumentan progresivamente de dificultad.\n\n🌍 Explora planetas\nViaja por planetas hermosos y misteriosos, cada uno con desafíos y estilos visuales únicos.\n\n🎮 Múltiples modos\nJuega en modo secuencial o por parejas. Personaliza tu experiencia con ajustes de audio y dificultad."
-      },
-      "screenshotURLs": [
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/1.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/2.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/3.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/4.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/5.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simon_in_space/6.jpg"
-      ]
     }
   ]
 }
