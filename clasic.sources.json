@@ -27,13 +27,22 @@
       "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
       "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonOnMars.png",
       "tintColor": "#007AFF",
+      "appPermissions": {
+        "entitlements": [
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSContactsUsageDescription": "Simon in space uses your contacts to find friends who already play and to invite the ones who don't.",
+          "NSUserNotificationUsageDescription": "We'll notify you when your lives regenerate so you can come back and play."
+        }
+      },
       "versions": [
         {
           "version": "1.0.1",
           "buildVersion": "51",
           "date": "2026-09-19T18:48:53Z",
           "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-v1.0.1/SimonOnMars-v1.0.1.ipa",
-          "size": 74366311,
+          "size": 74366329,
           "localizedDescription": "General stability improvements and behind-the-scenes updates.",
           "minOSVersion": "15.0"
         }
