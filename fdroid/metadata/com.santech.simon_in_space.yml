@@ -1,0 +1,12 @@
+Categories:
+  - Games
+License: Unknown
+SourceCode: https://github.com/santech-inc/simon_on_mars
+IssueTracker: https://github.com/santech-inc/simon_on_mars/issues
+Changelog: https://github.com/santech-inc/repo
+
+AutoUpdateMode: None
+UpdateCheckMode: None
+CurrentVersion: 1.0.1
+CurrentVersionCode: 51
+Builds: []
