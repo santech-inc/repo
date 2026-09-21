@@ -2,7 +2,7 @@
 
 This directory holds only **small, committed text metadata** for apps
 published to the self-hosted F-Droid repo — the fastlane-style layout
-`fdroidserver` reads:
+fdroidserver-compatible tooling reads:
 
 ```
 fdroid/metadata/<applicationId>.yml
@@ -15,11 +15,11 @@ fdroid/metadata/<applicationId>/<locale>/images/phoneScreenshots/*
 ```
 
 **This is not the served F-Droid index.** The actual repo index
-(`index-v1.jar`, `index-v1.json`, `index-v2.json`, `entry.json`), the
-extracted icons the index uses, and the `.apk` files themselves are never
-committed here — they're uploaded as assets of a single fixed-tag GitHub
-Release, **`fdroid-repo`**, in this repo. The F-Droid client adds this repo
-at:
+(`index-v1.jar`, `index-v1.json` — hand-built via `aapt`/`apksigner`/
+`jarsigner`, no `fdroidserver` dependency), the icon, and the `.apk` files
+themselves are never committed here — they're uploaded as assets of a
+single fixed-tag GitHub Release, **`fdroid-repo`**, in this repo. The
+F-Droid client adds this repo at:
 
 ```
 https://github.com/santech-inc/repo/releases/download/fdroid-repo
