@@ -157,6 +157,27 @@ https://santech-inc.github.io/repo/pal.sources.json
 
 > This table will be updated as new apps are added to the source.
 
+## F-Droid
+
+Some apps are also published to a self-hosted F-Droid repo, separate from
+the AltStore sources above (F-Droid is Android-only; AltStore is iOS-only).
+Unlike AltStore's hand-written JSON source, the F-Droid index
+(`index-v1.jar`/`index-v1.json`/`index-v2.json`/`entry.json`) is generated
+by `fdroidserver` and, together with the `.apk` files and extracted icons,
+lives entirely as assets of a single fixed-tag GitHub Release —
+**`fdroid-repo`** — never committed to this repo's git tree. Only the small
+fastlane-style text metadata that feeds that index is committed, under
+[`fdroid/`](fdroid/).
+
+**Add this source** in the F-Droid app: `Settings → Repositories → Add`:
+```
+https://github.com/santech-inc/repo/releases/download/fdroid-repo
+```
+
+This URL only resolves once at least one app has published for real (each
+project's `just dist-fdroid --push --confirm`, or the CI equivalent) — see
+`fdroid/README.md` and each project's `docs/FDROID.md` for how that works.
+
 ## Disclaimer
 
 All apps in this repository are provided **"as is"** without warranty of any kind, express or implied. Use at your own risk. The developers are not responsible for any damage, data loss, or issues that may arise from installing or using these apps.
