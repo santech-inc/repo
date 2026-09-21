@@ -32,9 +32,9 @@
           "buildVersion": "51",
           "date": "2026-09-19T18:48:53Z",
           "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-v1.0.1/SimonOnMars-v1.0.1.ipa",
-          "size": 72792731,
+          "size": 74366311,
           "localizedDescription": "General stability improvements and behind-the-scenes updates.",
-          "minOSVersion": "13.0"
+          "minOSVersion": "15.0"
         }
       ],
       "localizedDescriptions": {
