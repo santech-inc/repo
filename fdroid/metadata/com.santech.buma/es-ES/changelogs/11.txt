@@ -1,0 +1,2 @@
+Primera versión de BuMa: gestiona inventario, ventas y finanzas de tu
+negocio desde el móvil.

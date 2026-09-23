@@ -1,0 +1,18 @@
+BuMa es la app de gestión para tu negocio: controla inventario, ventas,
+clientes y finanzas desde el móvil, sin depender de hojas de cálculo.
+
+📦 Inventario en tiempo real
+Registra productos, controla el stock y recibe alertas antes de quedarte
+sin existencias.
+
+💰 Ventas y finanzas
+Registra ventas, gastos y consulta el estado financiero de tu negocio en
+cualquier momento.
+
+👥 Clientes y proveedores
+Lleva el historial de tus clientes y proveedores organizado en un solo
+lugar.
+
+📱 Funciona sin conexión
+Sigue trabajando aunque no tengas internet; los datos se sincronizan
+cuando vuelve la conexión.
