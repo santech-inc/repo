@@ -170,7 +170,7 @@
           "buildVersion": "1",
           "date": "2026-09-24T21:53:06Z",
           "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-AppFolderWidget-beta-v1.0/AppFolderWidget.ipa",
-          "size": 10781754,
+          "size": 10781725,
           "localizedDescription": "Describe what changed in this release.\n\nKeep this text concise because Google Play limits release notes to 500 characters.",
           "minOSVersion": "17.0"
         }
