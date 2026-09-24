@@ -150,6 +150,7 @@ https://santech-inc.github.io/repo/pal.sources.json
 | App | Bundle ID | Version | Classic | PAL |
 |-----|-----------|---------|---------|-----|
 | AppFolderWidget | `com.santech.AppFolderWidget` | 1.0 | Yes | No |
+| AppFolderWidget | `com.santech.AppFolderWidget.beta` | 1.0 | Yes | No |
 | Business Manager | `com.santech.businessManager` | 1.0.0 | Yes | No |
 | Simon On Mars | `com.santech.simonOnMars` | 1.0.1 | Yes | No |
 | Simon on Mars Beta | `com.santech.simonOnMars.beta` | 1.0.1 | Yes | No |
