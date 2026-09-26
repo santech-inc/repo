@@ -154,6 +154,7 @@ https://santech-inc.github.io/repo/pal.sources.json
 | BuMa Beta | `com.santech.buma.beta` | 1.0.0 | Yes | No |
 | Business Manager | `com.santech.businessManager` | 1.0.0 | Yes | No |
 | Simon On Mars | `com.santech.simonOnMars` | 1.0.1 | Yes | No |
+| Simon on Mars Beta | `com.santech.simonInSpaceGame.beta` | 1.0.4 | Yes | No |
 | Simon on Mars Beta | `com.santech.simonOnMars.beta` | 1.0.1 | Yes | No |
 <!-- END GENERATED: published-apps -->
 
