@@ -276,12 +276,12 @@
       },
       "versions": [
         {
-          "version": "1.0.6",
-          "buildVersion": "57",
-          "date": "2026-09-27T19:44:18Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-v1.0.6/SimonOnMars-v1.0.6.ipa",
-          "size": 69374252,
-          "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS",
+          "version": "1.0.10",
+          "buildVersion": "61",
+          "date": "2026-09-29T05:44:32Z",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-v1.0.10/SimonOnMars-v1.0.10.ipa",
+          "size": 69372009,
+          "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS\n- Improved the planet-completion cutscene when finishing all levels of a planet",
           "minOSVersion": "15.0"
         }
       ],
