@@ -20,7 +20,8 @@
     "com.santech.AppFolderWidget.beta",
     "com.santech.buma.beta",
     "com.santech.simonInSpaceGame.beta",
-    "com.santech.simonInSpaceGame"
+    "com.santech.simonInSpaceGame",
+    "com.example.myBusinessApp.beta"
   ],
   "news": [],
   "apps": [
@@ -297,6 +298,36 @@
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/5.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/6.jpg"
       ]
+    },
+    {
+      "name": "BuMa Beta",
+      "bundleIdentifier": "com.example.myBusinessApp.beta",
+      "developerName": "SanTech Inc",
+      "localizedDescription": "BuMa es la app de gestión para tu negocio: controla inventario, ventas,\nclientes y finanzas desde el móvil, sin depender de hojas de cálculo.\n\n📦 Inventario en tiempo real\nRegistra productos, controla el stock y recibe alertas antes de quedarte\nsin existencias.\n\n💰 Ventas y finanzas\nRegistra ventas, gastos y consulta el estado financiero de tu negocio en\ncualquier momento.\n\n👥 Clientes y proveedores\nLleva el historial de tus clientes y proveedores organizado en un solo\nlugar.\n\n📱 Funciona sin conexión\nSigue trabajando aunque no tengas internet; los datos se sincronizan\ncuando vuelve la conexión.",
+      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_example_myBusinessApp_beta.png",
+      "tintColor": "#007AFF",
+      "appPermissions": {
+        "entitlements": [
+          "get-task-allow"
+        ],
+        "privacy": {
+          "NSFaceIDUsageDescription": "Use Face ID to unlock the app"
+        }
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "buildVersion": "11",
+          "date": "2026-09-29T20:00:06Z",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-example-myBusinessApp-beta-v1.0.0/BuMa-Beta-v1.0.0.ipa",
+          "size": 15099587,
+          "localizedDescription": "Primera versión de BuMa: gestiona inventario, ventas y finanzas de tu\nnegocio desde el móvil.",
+          "minOSVersion": "15.0"
+        }
+      ],
+      "localizedDescriptions": {
+        "es-ES": "BuMa es la app de gestión para tu negocio: controla inventario, ventas,\nclientes y finanzas desde el móvil, sin depender de hojas de cálculo.\n\n📦 Inventario en tiempo real\nRegistra productos, controla el stock y recibe alertas antes de quedarte\nsin existencias.\n\n💰 Ventas y finanzas\nRegistra ventas, gastos y consulta el estado financiero de tu negocio en\ncualquier momento.\n\n👥 Clientes y proveedores\nLleva el historial de tus clientes y proveedores organizado en un solo\nlugar.\n\n📱 Funciona sin conexión\nSigue trabajando aunque no tengas internet; los datos se sincronizan\ncuando vuelve la conexión."
+      }
     }
   ]
 }
