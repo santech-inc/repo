@@ -21,7 +21,7 @@
   "news": [],
   "apps": [
     {
-      "name": "Simon On Mars",
+      "name": "Simon in space",
       "bundleIdentifier": "com.santech.simonInSpaceGame",
       "developerName": "SanTech Inc",
       "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
