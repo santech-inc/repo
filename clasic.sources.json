@@ -27,10 +27,10 @@
   "apps": [
     {
       "name": "Simon On Mars",
-      "bundleIdentifier": "com.santech.simonOnMars",
+      "bundleIdentifier": "com.santech.simonInSpaceGame",
       "developerName": "SanTech Inc",
       "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonOnMars.png",
+      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonInSpaceGame.png",
       "tintColor": "#007AFF",
       "appPermissions": {
         "entitlements": [
@@ -43,12 +43,12 @@
       },
       "versions": [
         {
-          "version": "1.0.1",
-          "buildVersion": "51",
-          "date": "2026-09-19T18:48:53Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-v1.0.1/SimonOnMars-v1.0.1.ipa",
-          "size": 74366329,
-          "localizedDescription": "General stability improvements and behind-the-scenes updates.",
+          "version": "1.0.10",
+          "buildVersion": "61",
+          "date": "2026-09-29T05:44:32Z",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-v1.0.10/SimonOnMars-v1.0.10.ipa",
+          "size": 69372009,
+          "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS\n- Improved the planet-completion cutscene when finishing all levels of a planet",
           "minOSVersion": "15.0"
         }
       ],
@@ -57,16 +57,16 @@
         "es-ES": "¡Pon a prueba tu memoria a través del cosmos! Demuestra tus habilidades en este emocionante juego de memoria donde deberás recordar y repetir secuencias en tu viaje por planetas asombrosos.\n\n🧠 Entrenamiento de memoria\nMejora tu memoria y concentración con secuencias desafiantes que aumentan progresivamente de dificultad.\n\n🌍 Explora planetas\nViaja por planetas hermosos y misteriosos, cada uno con desafíos y estilos visuales únicos.\n\n🎮 Múltiples modos\nJuega en modo secuencial o por parejas. Personaliza tu experiencia con ajustes de audio y dificultad."
       },
       "screenshotURLs": [
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/1.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/2.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/3.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/4.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/5.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars/6.jpg"
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/1.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/2.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/3.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/4.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/5.jpg",
+        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/6.jpg"
       ]
     },
     {
-      "name": "Business Manager",
+      "name": "BuMa",
       "bundleIdentifier": "com.santech.businessManager",
       "developerName": "SanTech Inc",
       "localizedDescription": "Business Manager helps small businesses manage sales, inventory, customers,\nand day-to-day operations from one place.",
@@ -97,72 +97,6 @@
     },
     {
       "name": "AppFolderWidget",
-      "bundleIdentifier": "com.santech.AppFolderWidget",
-      "developerName": "SanTech Inc",
-      "localizedDescription": "Replace this placeholder with the app's store description.",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_AppFolderWidget.png",
-      "tintColor": "#007AFF",
-      "versions": [
-        {
-          "version": "1.0",
-          "buildVersion": "1",
-          "date": "2026-09-18T08:15:37Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-AppFolderWidget-v1.0/AppFolderWidget.ipa",
-          "size": 10763598,
-          "localizedDescription": "Describe what changed in this release.\n\nKeep this text concise because Google Play limits release notes to 500 characters.",
-          "minOSVersion": "17.0"
-        }
-      ],
-      "screenshotURLs": [
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.AppFolderWidget/0.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.AppFolderWidget/1.jpg"
-      ],
-      "localizedDescriptions": {
-        "en-US": "Replace this placeholder with the app's store description."
-      }
-    },
-    {
-      "name": "Simon on Mars Beta",
-      "bundleIdentifier": "com.santech.simonOnMars.beta",
-      "developerName": "SanTech Inc",
-      "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonOnMars_beta.png",
-      "tintColor": "#007AFF",
-      "appPermissions": {
-        "entitlements": [
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSContactsUsageDescription": "Simon in space uses your contacts to find friends who already play and to invite the ones who don't.",
-          "NSUserNotificationUsageDescription": "We'll notify you when your lives regenerate so you can come back and play."
-        }
-      },
-      "versions": [
-        {
-          "version": "1.0.1",
-          "buildVersion": "51",
-          "date": "2026-09-21T14:57:04Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonOnMars-beta-v1.0.1/SimonOnMars-Beta-v1.0.1.ipa",
-          "size": 73901122,
-          "localizedDescription": "General stability improvements and behind-the-scenes updates.",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "localizedDescriptions": {
-        "en-US": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-        "es-ES": "¡Pon a prueba tu memoria a través del cosmos! Demuestra tus habilidades en este emocionante juego de memoria donde deberás recordar y repetir secuencias en tu viaje por planetas asombrosos.\n\n🧠 Entrenamiento de memoria\nMejora tu memoria y concentración con secuencias desafiantes que aumentan progresivamente de dificultad.\n\n🌍 Explora planetas\nViaja por planetas hermosos y misteriosos, cada uno con desafíos y estilos visuales únicos.\n\n🎮 Múltiples modos\nJuega en modo secuencial o por parejas. Personaliza tu experiencia con ajustes de audio y dificultad."
-      },
-      "screenshotURLs": [
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars.beta/1.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars.beta/2.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars.beta/3.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars.beta/4.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars.beta/5.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonOnMars.beta/6.jpg"
-      ]
-    },
-    {
-      "name": "AppFolderWidget",
       "bundleIdentifier": "com.santech.AppFolderWidget.beta",
       "developerName": "SanTech Inc",
       "localizedDescription": "Replace this placeholder with the app's store description.",
@@ -188,36 +122,6 @@
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.AppFolderWidget.beta/1.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.AppFolderWidget.beta/2.png"
       ]
-    },
-    {
-      "name": "BuMa Beta",
-      "bundleIdentifier": "com.santech.buma.beta",
-      "developerName": "SanTech Inc",
-      "localizedDescription": "BuMa es la app de gestión para tu negocio: controla inventario, ventas,\nclientes y finanzas desde el móvil, sin depender de hojas de cálculo.\n\n📦 Inventario en tiempo real\nRegistra productos, controla el stock y recibe alertas antes de quedarte\nsin existencias.\n\n💰 Ventas y finanzas\nRegistra ventas, gastos y consulta el estado financiero de tu negocio en\ncualquier momento.\n\n👥 Clientes y proveedores\nLleva el historial de tus clientes y proveedores organizado en un solo\nlugar.\n\n📱 Funciona sin conexión\nSigue trabajando aunque no tengas internet; los datos se sincronizan\ncuando vuelve la conexión.",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_buma_beta.png",
-      "tintColor": "#007AFF",
-      "appPermissions": {
-        "entitlements": [
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSFaceIDUsageDescription": "Use Face ID to unlock the app"
-        }
-      },
-      "versions": [
-        {
-          "version": "1.0.0",
-          "buildVersion": "11",
-          "date": "2026-09-25T03:44:53Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-buma-beta-v1.0.0/BuMa-Beta-v1.0.0.ipa",
-          "size": 15099591,
-          "localizedDescription": "Primera versión de BuMa: gestiona inventario, ventas y finanzas de tu\nnegocio desde el móvil.",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "localizedDescriptions": {
-        "es-ES": "BuMa es la app de gestión para tu negocio: controla inventario, ventas,\nclientes y finanzas desde el móvil, sin depender de hojas de cálculo.\n\n📦 Inventario en tiempo real\nRegistra productos, controla el stock y recibe alertas antes de quedarte\nsin existencias.\n\n💰 Ventas y finanzas\nRegistra ventas, gastos y consulta el estado financiero de tu negocio en\ncualquier momento.\n\n👥 Clientes y proveedores\nLleva el historial de tus clientes y proveedores organizado en un solo\nlugar.\n\n📱 Funciona sin conexión\nSigue trabajando aunque no tengas internet; los datos se sincronizan\ncuando vuelve la conexión."
-      }
     },
     {
       "name": "Simon on Mars Beta",
@@ -257,46 +161,6 @@
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame.beta/4.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame.beta/5.jpg",
         "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame.beta/6.jpg"
-      ]
-    },
-    {
-      "name": "Simon On Mars",
-      "bundleIdentifier": "com.santech.simonInSpaceGame",
-      "developerName": "SanTech Inc",
-      "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-      "iconURL": "https://raw.githubusercontent.com/santech-inc/repo/main/icons/com_santech_simonInSpaceGame.png",
-      "tintColor": "#007AFF",
-      "appPermissions": {
-        "entitlements": [
-          "get-task-allow"
-        ],
-        "privacy": {
-          "NSContactsUsageDescription": "Simon in space uses your contacts to find friends who already play and to invite the ones who don't.",
-          "NSUserNotificationUsageDescription": "We'll notify you when your lives regenerate so you can come back and play."
-        }
-      },
-      "versions": [
-        {
-          "version": "1.0.10",
-          "buildVersion": "61",
-          "date": "2026-09-29T05:44:32Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-v1.0.10/SimonOnMars-v1.0.10.ipa",
-          "size": 69372009,
-          "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS\n- Improved the planet-completion cutscene when finishing all levels of a planet",
-          "minOSVersion": "15.0"
-        }
-      ],
-      "localizedDescriptions": {
-        "en-US": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
-        "es-ES": "¡Pon a prueba tu memoria a través del cosmos! Demuestra tus habilidades en este emocionante juego de memoria donde deberás recordar y repetir secuencias en tu viaje por planetas asombrosos.\n\n🧠 Entrenamiento de memoria\nMejora tu memoria y concentración con secuencias desafiantes que aumentan progresivamente de dificultad.\n\n🌍 Explora planetas\nViaja por planetas hermosos y misteriosos, cada uno con desafíos y estilos visuales únicos.\n\n🎮 Múltiples modos\nJuega en modo secuencial o por parejas. Personaliza tu experiencia con ajustes de audio y dificultad."
-      },
-      "screenshotURLs": [
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/1.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/2.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/3.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/4.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/5.jpg",
-        "https://raw.githubusercontent.com/santech-inc/repo/main/screenshots/com.santech.simonInSpaceGame/6.jpg"
       ]
     },
     {
