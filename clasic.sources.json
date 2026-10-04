@@ -140,7 +140,7 @@
           "buildVersion": "63",
           "date": "2026-10-04T17:46:22Z",
           "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-beta-v1.0.12/SimonOnMars-Beta-v1.0.12.ipa",
-          "size": 69007139,
+          "size": 69007104,
           "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS\n- Improved the planet-completion cutscene when finishing all levels of a planet\n- Friends/leaderboard now ask before checking your contacts, and only look at the ones you pick",
           "minOSVersion": "15.0"
         }
