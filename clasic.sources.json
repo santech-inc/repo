@@ -140,8 +140,8 @@
           "buildVersion": "91",
           "date": "2026-11-01T09:05:35Z",
           "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-beta-v1.2.3/SimonOnMars-Beta-v1.2.3.ipa",
-          "size": 78721356,
-          "localizedDescription": "- New planet: Inmenso's puzzles are played in reverse order\n- Arcade modes: endless pirate battles and asteroid runs\n- Prizes on board squares: batteries and coins\n- Daily rewards with a 30-day streak calendar\n- Ship upgrades: auto turret, laser, shockwave and solar panel\n- Simon talks to you, with new lines when you lose\n- New ship skins and a redesigned store\n- Fixes for memory use, card backgrounds and sounds",
+          "size": 78721383,
+          "localizedDescription": "- New planet: Inmenso's puzzles are played in reverse order\n- Asteroid belt with coin and battery pickups\n- Arcade modes: endless pirate battles and asteroid runs\n- Prizes on board squares: batteries and coins\n- Daily rewards with a 30-day streak calendar\n- Ship upgrades: auto turret, laser, shockwave and solar panel\n- Simon talks to you with his own voice and volume slider\n- New ship skins, redesigned store, better tablet layouts\n- Fixes for memory use, sounds and the rocket interior",
           "minOSVersion": "15.0"
         }
       ],
