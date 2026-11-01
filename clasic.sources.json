@@ -136,12 +136,12 @@
       },
       "versions": [
         {
-          "version": "1.0.12",
-          "buildVersion": "63",
-          "date": "2026-10-04T17:46:22Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-beta-v1.0.12/SimonOnMars-Beta-v1.0.12.ipa",
-          "size": 69007104,
-          "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS\n- Improved the planet-completion cutscene when finishing all levels of a planet\n- Friends/leaderboard now ask before checking your contacts, and only look at the ones you pick",
+          "version": "1.2.3",
+          "buildVersion": "91",
+          "date": "2026-11-01T09:05:35Z",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-beta-v1.2.3/SimonOnMars-Beta-v1.2.3.ipa",
+          "size": 78721356,
+          "localizedDescription": "- New planet: Inmenso's puzzles are played in reverse order\n- Arcade modes: endless pirate battles and asteroid runs\n- Prizes on board squares: batteries and coins\n- Daily rewards with a 30-day streak calendar\n- Ship upgrades: auto turret, laser, shockwave and solar panel\n- Simon talks to you, with new lines when you lose\n- New ship skins and a redesigned store\n- Fixes for memory use, card backgrounds and sounds",
           "minOSVersion": "15.0"
         }
       ],
