@@ -22,7 +22,7 @@
   "news": [],
   "apps": [
     {
-      "name": "Simon in space",
+      "name": "Simon On Mars",
       "bundleIdentifier": "com.santech.simonInSpaceGame",
       "developerName": "SanTech Inc",
       "localizedDescription": "Test your memory across the cosmos! Show off your skills in this exciting memory game where you'll need to remember and repeat sequences on your journey through amazing planets.\n\n🧠 Memory training\nImprove your memory and focus with challenging sequences that progressively increase in difficulty.\n\n🌍 Explore planets\nTravel across beautiful and mysterious planets, each with unique challenges and visual styles.\n\n🎮 Multiple modes\nPlay in sequence mode or pairs mode. Customize your experience with audio and difficulty settings.",
@@ -33,18 +33,17 @@
           "get-task-allow"
         ],
         "privacy": {
-          "NSContactsUsageDescription": "Simon in space uses your contacts to find friends who already play and to invite the ones who don't.",
           "NSUserNotificationUsageDescription": "We'll notify you when your lives regenerate so you can come back and play."
         }
       },
       "versions": [
         {
-          "version": "1.0.10",
-          "buildVersion": "61",
-          "date": "2026-09-29T05:44:32Z",
-          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-v1.0.10/SimonOnMars-v1.0.10.ipa",
-          "size": 69372009,
-          "localizedDescription": "- New splash screen with smoother loading\n- Fixed the onboarding skip button triggering twice\n- Fixed a rendering glitch on the space background\n- Better layout for play screen and settings on tablets\n- Fixed in-app purchases not completing on iOS\n- Improved the planet-completion cutscene when finishing all levels of a planet",
+          "version": "1.2.3",
+          "buildVersion": "91",
+          "date": "2026-11-02T09:03:54Z",
+          "downloadURL": "https://github.com/santech-inc/repo/releases/download/com-santech-simonInSpaceGame-v1.2.3/SimonOnMars-v1.2.3.ipa",
+          "size": 78359744,
+          "localizedDescription": "- New planet: Inmenso's puzzles are played in reverse order\n- Asteroid belt with coin and battery pickups\n- Arcade modes: endless pirate battles and asteroid runs\n- Prizes on board squares: batteries and coins\n- Daily rewards with a 30-day streak calendar\n- Ship upgrades: auto turret, laser, shockwave and solar panel\n- Simon talks to you with his own voice and volume slider\n- New ship skins, redesigned store, better tablet layouts\n- Fixes for memory use, sounds and the rocket interior",
           "minOSVersion": "15.0"
         }
       ],
