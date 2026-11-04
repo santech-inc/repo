@@ -152,7 +152,7 @@ https://santech-inc.github.io/repo/pal.sources.json
 | AppFolderWidget | `com.santech.AppFolderWidget.beta` | 1.0 | Yes | No |
 | BuMa | `com.santech.businessManager` | 1.0.0 | Yes | No |
 | BuMa Beta | `com.example.myBusinessApp.beta` | 1.0.0 | Yes | No |
-| Simon On Mars | `com.santech.simonInSpaceGame` | 1.2.4 | Yes | No |
+| Simon On Mars | `com.santech.simonInSpaceGame` | 1.2.7 | Yes | No |
 | Simon on Mars Beta | `com.santech.simonInSpaceGame.beta` | 1.2.3 | Yes | No |
 <!-- END GENERATED: published-apps -->
 
